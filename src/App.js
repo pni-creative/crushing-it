@@ -74,7 +74,7 @@ class App extends React.Component {
   
   render () {
     var show = this.state.winner === "" ? "hide" : "show winner-container";
-    var hideButton = this.state.nominees === "" ? "hide" : "show";
+    var hideButton = this.state.winner === "" ? "show" : "hide";
     var hideInput = this.state.winner === "" ? "show" : "hide";
     var hideStartButton = this.state.winner === "" ? "hide" : "show";
     
