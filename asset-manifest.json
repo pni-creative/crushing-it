@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/crushing-it/static/css/main.106bf1b4.chunk.css",
+    "main.css": "/crushing-it/static/css/main.a306e378.chunk.css",
     "main.js": "/crushing-it/static/js/main.18a3ca07.chunk.js",
     "main.js.map": "/crushing-it/static/js/main.18a3ca07.chunk.js.map",
     "runtime~main.js": "/crushing-it/static/js/runtime~main.08ed9033.js",
@@ -8,8 +8,8 @@
     "static/js/2.9dc20dbf.chunk.js": "/crushing-it/static/js/2.9dc20dbf.chunk.js",
     "static/js/2.9dc20dbf.chunk.js.map": "/crushing-it/static/js/2.9dc20dbf.chunk.js.map",
     "index.html": "/crushing-it/index.html",
-    "precache-manifest.b6e69e9b660854318a9c509ede6be312.js": "/crushing-it/precache-manifest.b6e69e9b660854318a9c509ede6be312.js",
+    "precache-manifest.b1bb14ee9cba9c0615ddb7ff6b66afb8.js": "/crushing-it/precache-manifest.b1bb14ee9cba9c0615ddb7ff6b66afb8.js",
     "service-worker.js": "/crushing-it/service-worker.js",
-    "static/css/main.106bf1b4.chunk.css.map": "/crushing-it/static/css/main.106bf1b4.chunk.css.map"
+    "static/css/main.a306e378.chunk.css.map": "/crushing-it/static/css/main.a306e378.chunk.css.map"
   }
 }
