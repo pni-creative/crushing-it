@@ -1,4 +1,7 @@
 import React from 'react';
+import Winner from './Winner';
+import Inputs from './Inputs';
+import Buttons from './Buttons';
 import './App.scss';
 
 class App extends React.Component {
@@ -96,33 +99,21 @@ class App extends React.Component {
         <div className="forms">
           <h1>PNI Creative <br/> Crushing it! Award</h1>
           <div>
-            <input id="add" className={hideInput} placeholder="Nominee" onKeyPress={this.handleOnKeyPress.bind(this)} autoComplete="off"/>
-            <input id="plus" className={hideInput} placeholder="+" onKeyPress={this.handleOnKeyPress.bind(this)} autoComplete="off"/> 
-
-            <button className={hideButton} onClick={this.handleWinner.bind(this)}>CRUSHING IT!!</button>
-            <button className={hideStartButton} onClick={this.startAgain.bind(this)}>Start Again</button>
+            <Inputs 
+              hideInput={hideInput}
+              onKeyPress={this.handleOnKeyPress.bind(this)}/>
+            <Buttons 
+              hideButton={hideButton}
+              hideStartButton={hideStartButton}
+              handleWinner={this.handleWinner.bind(this)}
+              startAgain={this.startAgain.bind(this)}/>
           </div>
         </div>
         <div className="content">
           <ul>
             {nominees}
           </ul>
-          
-          
-          <div className={show}>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-              <div className="confetti"></div>
-            <p>This week's winner is:</p>
-            <p className="animated fadeInUp winner">{this.state.winner}!</p>
-          </div>
+          <Winner winner={this.state.winner} hide={show} />
         </div>
       </div>
     )
