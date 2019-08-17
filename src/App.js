@@ -12,14 +12,23 @@ class App extends React.Component {
   
   handleAdd() {
     var inputField = document.getElementById("add");
+    var multipleField = document.getElementById("plus");
 
     const nominee = inputField.value;
-    
-    if(nominee.trim() !== "") {
+    const multiplier = multipleField.value;
+
+    if(multiplier.trim() !== "" && nominee.trim() !== "") {
+      for(var i = 0; i < multiplier; i++) {
+        this.state.nominees.push(nominee);
+        this.setState({nominees: this.state.nominees});
+      }
+    } else if(nominee.trim() !== "") {
       this.state.nominees.push(nominee);
       this.setState({nominees: this.state.nominees});
     }
-    
+
+    inputField.value = "";
+    multipleField.value = "";
   }
   
   handleOnKeyPress (e) {
@@ -87,7 +96,8 @@ class App extends React.Component {
         <div className="forms">
           <h1>PNI Creative <br/> Crushing it! Award</h1>
           <div>
-            <input id="add" className={hideInput} placeholder="Nominee" onKeyPress={this.handleOnKeyPress.bind(this)} autocomplete="off"/> 
+            <input id="add" className={hideInput} placeholder="Nominee" onKeyPress={this.handleOnKeyPress.bind(this)} autoComplete="off"/>
+            <input id="plus" className={hideInput} placeholder="+" onKeyPress={this.handleOnKeyPress.bind(this)} autoComplete="off"/> 
 
             <button className={hideButton} onClick={this.handleWinner.bind(this)}>CRUSHING IT!!</button>
             <button className={hideStartButton} onClick={this.startAgain.bind(this)}>Start Again</button>
