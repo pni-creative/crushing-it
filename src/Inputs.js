@@ -5,7 +5,7 @@ class Inputs extends React.Component {
         return (
             <div>
                 <input id="add" className={this.props.hideInput} placeholder="Nominee" onKeyPress={this.props.onKeyPress} autoComplete="off"/>
-                <input id="plus" className={this.props.hideInput} placeholder="+" onKeyPress={this.props.onKeyPress} autoComplete="off" type="number"/> 
+                <input id="plus" className={this.props.hideInput} placeholder="1" onKeyPress={this.props.onKeyPress} autoComplete="off" type="number"/> 
             </div>
         )
     }
