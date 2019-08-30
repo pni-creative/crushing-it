@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/crushing-it/static/css/main.7395309b.chunk.css",
-    "main.js": "/crushing-it/static/js/main.8f12cca1.chunk.js",
-    "main.js.map": "/crushing-it/static/js/main.8f12cca1.chunk.js.map",
+    "main.css": "/crushing-it/static/css/main.1dd8efa4.chunk.css",
+    "main.js": "/crushing-it/static/js/main.acf293d3.chunk.js",
+    "main.js.map": "/crushing-it/static/js/main.acf293d3.chunk.js.map",
     "runtime~main.js": "/crushing-it/static/js/runtime~main.08ed9033.js",
     "runtime~main.js.map": "/crushing-it/static/js/runtime~main.08ed9033.js.map",
-    "static/js/2.a1c5b549.chunk.js": "/crushing-it/static/js/2.a1c5b549.chunk.js",
-    "static/js/2.a1c5b549.chunk.js.map": "/crushing-it/static/js/2.a1c5b549.chunk.js.map",
+    "static/js/2.64b45eef.chunk.js": "/crushing-it/static/js/2.64b45eef.chunk.js",
+    "static/js/2.64b45eef.chunk.js.map": "/crushing-it/static/js/2.64b45eef.chunk.js.map",
     "index.html": "/crushing-it/index.html",
-    "precache-manifest.b319cd3cb06478ee36eda703b5c40329.js": "/crushing-it/precache-manifest.b319cd3cb06478ee36eda703b5c40329.js",
+    "precache-manifest.441f58ad75392c6feb82bece472c0bc4.js": "/crushing-it/precache-manifest.441f58ad75392c6feb82bece472c0bc4.js",
     "service-worker.js": "/crushing-it/service-worker.js",
-    "static/css/main.7395309b.chunk.css.map": "/crushing-it/static/css/main.7395309b.chunk.css.map"
+    "static/css/main.1dd8efa4.chunk.css.map": "/crushing-it/static/css/main.1dd8efa4.chunk.css.map"
   }
 }
