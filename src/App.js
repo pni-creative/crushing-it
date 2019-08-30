@@ -4,12 +4,14 @@ import Inputs from './Inputs';
 import Buttons from './Buttons';
 import './App.scss';
 
+
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       nominees: [],
-      winner: ""
+      winner: "",
+      timesOfNomination: [],
     }
   }
   
@@ -30,8 +32,36 @@ class App extends React.Component {
       this.setState({nominees: this.state.nominees});
     }
 
+    this.handleNominees(nominee, multiplier);
+
     inputField.value = "";
     multipleField.value = "";
+  }
+
+  handleNominees(nominee, multiplier) {
+    const n = nominee;
+    let m = "";
+    if(multiplier !== "") {
+      m = parseInt(multiplier);
+    } else {
+      m = 1;
+    }
+
+    if(this.state.timesOfNomination.length === 0 ){
+      this.state.timesOfNomination.push({name: n, times: m});
+      this.setState({timesOfNomination: this.state.timesOfNomination});
+    } else {
+      for (let [ i, v] of this.state.timesOfNomination.entries()) {
+        if(v.name === n) {
+          return this.setState(prevState => {
+            const current = {...prevState.timesOfNomination};
+            current[i].times = v.times + m;
+          });
+        }
+      }
+      this.state.timesOfNomination.push({name: n, times: m});
+      return this.setState({timesOfNomination: this.state.timesOfNomination});
+    }
   }
   
   handleOnKeyPress (e) {
@@ -63,8 +93,9 @@ class App extends React.Component {
         setTimeout(() => {
           
           const winner =  this.state.nominees[0];
-          this.setState({winner: winner})
-          this.setState({nominees: []})
+          this.setState({winner: winner});
+          this.setState({nominees: []});
+          this.setState({timesOfNomination: []});
         
       }, 500*timeMultiplier);
     }
@@ -72,16 +103,34 @@ class App extends React.Component {
  }
   
   startAgain() {
-    this.setState({winner: ""})
-    this.setState({nominees: []})
+    this.setState({winner: ""});
+    this.setState({nominees: []});
+    this.setState({timesOfNomination: []});
   }
   
   removeNom(index) {
   var noms = [...this.state.nominees]; 
+  let indexName = noms[index];
+
   if (index !== -1) {
     noms.splice(index, 1);
     this.setState({nominees: noms});
   }
+
+  //remove from timesOfNomination
+  for (let [ i, v] of this.state.timesOfNomination.entries()) {
+    if(v.name === indexName) {
+      if(v.times === 1) {
+        return this.setState({timesOfNomination: this.state.timesOfNomination.filter(i => i.name !== indexName)});
+      } else {
+        return this.setState(prevState => {
+          const current = {...prevState.timesOfNomination};
+          current[i].times = v.times -1;
+        });
+      }
+    }
+  }
+  
 }
   
   render () {
@@ -90,8 +139,24 @@ class App extends React.Component {
     var hideInput = this.state.winner === "" ? "show" : "hide";
     var hideStartButton = this.state.winner === "" ? "hide" : "show";
     
-    const nominees = this.state.nominees.map((nominee, i) => {
-      return (<li key={i} className="animated fadeInUp" onClick={() => this.removeNom(i)}> <span>&bull;</span> {nominee}</li>)
+    const nominees = this.state.timesOfNomination.map((value, i) => {
+      const name = value.name;
+      let times = "";
+      let liStyle = "";
+
+      times = value.times;
+      
+      if(times > 1) {
+        liStyle = {
+          fontSize: 25 + 3 * times + 'px',
+        };
+      } else {
+        liStyle = {
+          fontSize: '25px',
+        };
+      }
+
+      return (<li key={i} style={liStyle} className="animated fadeInUp" onClick={() => this.removeNom(i)} > {name} <span>{times}</span></li>)
     })
     
     return (
@@ -115,6 +180,7 @@ class App extends React.Component {
           </ul>
           <Winner winner={this.state.winner} hide={show} />
         </div>
+       
       </div>
     )
   }
