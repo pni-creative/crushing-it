@@ -3,6 +3,8 @@ import Winner from './Winner';
 import Inputs from './Inputs';
 import Buttons from './Buttons';
 import './App.scss';
+var db = require("./database.js");
+
 
 
 class App extends React.Component {
@@ -15,24 +17,53 @@ class App extends React.Component {
     }
   }
   
-  handleAdd() {
+	handleAdd() {
     var inputField = document.getElementById("add");
     var multipleField = document.getElementById("plus");
 
     const nominee = inputField.value;
     const multiplier = multipleField.value;
 
-    if(multiplier.trim() !== "" && nominee.trim() !== "") {
-      for(var i = 0; i < multiplier; i++) {
-        this.state.nominees.push(nominee);
-        this.setState({nominees: this.state.nominees});
-      }
-    } else if(nominee.trim() !== "") {
-      this.state.nominees.push(nominee);
-      this.setState({nominees: this.state.nominees});
-    }
+		if (nominee === "test") {
+			var testNames = 
+				[
+					{name: "amir", votes: 4},
+					{name: "david", votes: 2},
+					{name: "gabe", votes: 2},
+					{name: "mayna", votes: 2},
+					{name: "vince", votes: 2},
+					{name: "carlos", votes: 1},
+					{name: "francesca", votes: 2},
+					{name: "jinn", votes: 1},
+					{name: "kevin", votes: 1},
+					{name: "connie", votes: 1},
+					{name: "will", votes: 2},
+				]
 
-    this.handleNominees(nominee, multiplier);
+			for (var i = 0; i < testNames.length; i++) {
+				for (var j = 0; j < testNames[i].votes; j++) {
+					this.state.nominees.push(testNames[i].name);
+					this.setState({nominees: this.state.nominees});
+				}
+				this.handleNominees(testNames[i].name, testNames[i].votes);
+			} 
+		} else if (multiplier.trim() !== "" && nominee.trim() !== "") {
+
+			for(var i = 0; i < multiplier; i++) {
+
+		  	this.state.nominees.push(nominee);
+		  	this.setState({nominees: this.state.nominees});
+			}
+
+			this.handleNominees(nominee, multiplier);
+
+  	} else if (nominee.trim() !== "") {
+
+			this.state.nominees.push(nominee);
+  		this.setState({nominees: this.state.nominees});
+			this.handleNominees(nominee, multiplier);
+
+		}
 
     inputField.value = "";
     multipleField.value = "";
@@ -71,6 +102,8 @@ class App extends React.Component {
   }
   
   handleWinner() {
+
+		
     var inputField = document.getElementById("add");
     inputField.value = "";
 
@@ -96,6 +129,8 @@ class App extends React.Component {
           this.setState({winner: winner});
           this.setState({nominees: []});
           this.setState({timesOfNomination: []});
+
+					db.add(nominees, winner);
         
       }, 500*timeMultiplier);
     }
@@ -132,6 +167,9 @@ class App extends React.Component {
   }
   
 }
+
+
+
   
   render () {
     var show = this.state.winner === "" ? "hide" : "show winner-container";
