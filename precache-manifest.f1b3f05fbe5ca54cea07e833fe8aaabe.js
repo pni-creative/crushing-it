@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "224cbd3c6e4261a0bc26e3b9809f5a0f",
+    "revision": "986e0d81fa9c4c3ab88ad7ae046ae8a7",
     "url": "/crushing-it/index.html"
   },
   {
-    "revision": "1e9212acda83ded78b2b",
+    "revision": "db0186c536883d15b0b1",
     "url": "/crushing-it/static/css/main.55d8a4ce.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/crushing-it/static/js/2.c0038991.chunk.js"
   },
   {
-    "revision": "1e9212acda83ded78b2b",
-    "url": "/crushing-it/static/js/main.4ae67bf4.chunk.js"
+    "revision": "db0186c536883d15b0b1",
+    "url": "/crushing-it/static/js/main.a35a58e9.chunk.js"
   },
   {
     "revision": "11d969ddcba7259856ba",
