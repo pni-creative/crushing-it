@@ -9,11 +9,10 @@ import * as serviceWorker from './serviceWorker';
 const routing = (
   <Router>
     <div>
-      //uncomment for local dev
-      //<Route exact path="/" component={App} />
-      //<Route path="/json" component={Json} />
-      <Route exact path="/crushing-it" component={App} />
-      <Route path="/crushing-it/json" component={Json} />
+
+      <Route exact path="/" component={App} />
+      <Route path="/json" component={Json} />
+
     </div>
   </Router>
 )
