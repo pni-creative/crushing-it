@@ -66,6 +66,57 @@ module.exports = {
         } 
         }
     }
+  },
+  profile: function(elementID, profileID) {
+
+    var params = {
+        TableName: table,
+    };
+
+    console.log("Scanning Crushin table.");
+    docClient.scan(params, onScan);
+
+    function onScan(err, data) {
+      var tCount = 0;
+      var wins = 0;
+      var el = document.getElementById(elementID);
+      if (err) {
+        console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+        console.log("Scan succeeded.");
+
+        data.Items.forEach(function(data) {
+
+          var count = 0;
+
+          for (var i = 0; i < data.names.length; i++) {
+            if (data.names[i].toLowerCase() === profileID) {
+              count++;
+            }
+          }
+          if (data.winner.toLowerCase() === profileID) {
+            wins++;
+          }
+          tCount += count;					
+        });
+
+        // continue scanning if we have more movies, because
+        // scan can retrieve a maximum of 1MB of data
+        if (typeof data.LastEvaluatedKey != "undefined") {
+            console.log("Scanning for more...");
+            params.ExclusiveStartKey = data.LastEvaluatedKey;
+            docClient.scan(params, onScan);
+        } else {
+          var nomNode = document.createElement("H3");
+          var nomStr = "nominated " + tCount + " times";
+          nomNode.innerHTML = nomStr;
+          var winNode = document.createElement("H3");
+          winNode.innerHTML = wins +  " wins";
+          el.appendChild(nomNode);
+          el.appendChild(winNode);
+        }
+      }
+    }
   }
 }
 
