@@ -4,16 +4,17 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 import './index.css';
 import App from './App';
 import Json from './Json';
+import Profile from './Profile';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
   <Router>
     <div>
-      //uncomment for local dev
+
       <Route exact path="/" component={App} />
       <Route path="/json" component={Json} />
-      //<Route exact path="/crushing-it" component={App} />
-      //<Route path="/crushing-it/json" component={Json} />
+      <Route exact path="/profile/:id" component={Profile} />
+
     </div>
   </Router>
 )

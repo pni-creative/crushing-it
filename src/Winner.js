@@ -12,6 +12,7 @@ class Winner extends React.Component {
                 }
                 <p>This week's winner is:</p>
                 <p className="animated fadeInUp winner">{this.props.winner}!</p>
+                <p className="animated fadeInUp">This is the <span id="w-count"></span> win for {this.props.winner} and <span id="w-nom"></span> nomination.</p>
           </div>
         )
     }
