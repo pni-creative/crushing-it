@@ -6,19 +6,17 @@ import Buttons from './Buttons';
 import './App.scss';
 var db = require("./database.js");
 
-
-const initialState = {
-  nominees: [],
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      nominees: [],
       winner: "",
       timesOfNomination: [],
       input: "",
       quantityField: "1",
       labelButton: "CRUSHING IT!!"
-}
-class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = initialState;
+    }
   }
 
   onInputChange(e) { this.setState({input: e.target.value}); }
@@ -26,7 +24,7 @@ class App extends React.Component {
   
   handleAdd() {
     let multiplier = this.state.quantityField;
-    const nominee = this.state.input;
+    let nominee = this.state.input;
 
 
     if (nominee === "test") {
@@ -106,7 +104,8 @@ class App extends React.Component {
     }
   }
   
-  handleWinner() {
+  handleWinner(e) {
+	e.target.blur();
     this.setState({input: ''});
     this.setState({labelButton: "Start Again"})
 
@@ -140,11 +139,16 @@ class App extends React.Component {
   }
  }
   
-  startAgain() {
-       this.setState(initialState);
+  startAgain(e) {
+	e.target.blur();
+
+    this.setState({winner: ""});
+    this.setState({nominees: []});
+	this.setState({timesOfNomination: []});
+	this.setState({labelButton: "CRUSHING IT!"})
     }
     
-    removeNom(index) {
+  removeNom(index) {
     var noms = [...this.state.nominees]; 
     let indexName = noms[index];
 
@@ -195,7 +199,7 @@ class App extends React.Component {
     const nominees = this.state.timesOfNomination.map((value, i) => {
       const name = value.name;
       let times = "";
-      let liStyle = "";
+      let liStyle = {};
 
       times = value.times;
       
@@ -223,7 +227,6 @@ class App extends React.Component {
         <div className="content">
           <ul>
             {nominees}
-            <Nominee />
           </ul>
           <Winner 
             winner={this.state.winner} 
