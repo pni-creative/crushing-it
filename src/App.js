@@ -7,18 +7,18 @@ import './App.scss';
 var db = require("./database.js");
 
 
-
-class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      nominees: [],
+const initialState = {
+  nominees: [],
       winner: "",
       timesOfNomination: [],
       input: "",
       quantityField: "1",
       labelButton: "CRUSHING IT!!"
-    }
+}
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = initialState;
   }
 
   onInputChange(e) { this.setState({input: e.target.value}); }
@@ -141,13 +141,10 @@ class App extends React.Component {
  }
   
   startAgain() {
-      this.setState({winner: ""});
-      this.setState({nominees: []});
-      this.setState({timesOfNomination: []});
+       this.setState(initialState);
     }
     
     removeNom(index) {
-      console.log(index);
     var noms = [...this.state.nominees]; 
     let indexName = noms[index];
 
@@ -211,8 +208,7 @@ class App extends React.Component {
           fontSize: '25px',
         };
       }
-// return (<Nominee key={i} style={liStyle} className="animated fadeInUp" onClick={() => this.removeNom(i)} > {name} <span>{times}</span></li>)
-      return (<Nominee name={name} times={times} key={i} style={liStyle} clickFn={() => console.log(this)} />)
+      return (<Nominee name={name} times={times} key={i} style={liStyle} clickFn={() => this.removeNom(i)} />)
     })
     
     return (
