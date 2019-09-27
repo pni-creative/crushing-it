@@ -181,6 +181,7 @@ class App extends React.Component {
 
     if(!this.state.winner) {
       formInputs = <Inputs
+                      input={this.state.input}
                       onKeyPress={this.handleOnKeyPress.bind(this)}
                       onChange={this.onInputChange.bind(this)}
                       quantityChange={this.onMultipleInputChange.bind(this)} />
