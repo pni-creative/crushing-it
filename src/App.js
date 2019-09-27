@@ -1,4 +1,5 @@
 import React from 'react';
+import Nominee from './Nominee';
 import Winner from './Winner';
 import Inputs from './Inputs';
 import Buttons from './Buttons';
@@ -14,15 +15,19 @@ class App extends React.Component {
       nominees: [],
       winner: "",
       timesOfNomination: [],
+      input: "",
+      quantityField: "1",
+      labelButton: "CRUSHING IT!!"
     }
   }
+
+  onInputChange(e) { this.setState({input: e.target.value}); }
+  onMultipleInputChange(e) { this.setState({quantityField: e.target.value}); }
   
   handleAdd() {
-    var inputField = document.getElementById("add");
-    var multipleField = document.getElementById("plus");
+    let multiplier = this.state.quantityField;
+    const nominee = this.state.input;
 
-    const nominee = inputField.value;
-    const multiplier = multipleField.value;
 
     if (nominee === "test") {
       var testNames = 
@@ -65,8 +70,8 @@ class App extends React.Component {
 
     }
 
-    inputField.value = "";
-    multipleField.value = "";
+    this.setState({input : ''});
+    this.setState({quantityField: ''})
   }
 
   handleNominees(nominee, multiplier) {
@@ -98,14 +103,12 @@ class App extends React.Component {
   handleOnKeyPress (e) {
     if(e.charCode == '13') {
         this.handleAdd();
-       }
+    }
   }
   
   handleWinner() {
-
-    
-    var inputField = document.getElementById("add");
-    inputField.value = "";
+    this.setState({input: ''});
+    this.setState({labelButton: "Start Again"})
 
     const nominees = this.state.nominees;
     
@@ -138,45 +141,59 @@ class App extends React.Component {
  }
   
   startAgain() {
-    this.setState({winner: ""});
-    this.setState({nominees: []});
-    this.setState({timesOfNomination: []});
-  }
-  
-  removeNom(index) {
-  var noms = [...this.state.nominees]; 
-  let indexName = noms[index];
+      this.setState({winner: ""});
+      this.setState({nominees: []});
+      this.setState({timesOfNomination: []});
+    }
+    
+    removeNom(index) {
+      console.log(index);
+    var noms = [...this.state.nominees]; 
+    let indexName = noms[index];
 
-  if (index !== -1) {
-    noms.splice(index, 1);
-    this.setState({nominees: noms});
-  }
+    if (index !== -1) {
+      noms.splice(index, 1);
+      this.setState({nominees: noms});
+    }
 
-  //remove from timesOfNomination
-  for (let [ i, v] of this.state.timesOfNomination.entries()) {
-    if(v.name === indexName) {
-      if(v.times === 1) {
-        return this.setState({timesOfNomination: this.state.timesOfNomination.filter(i => i.name !== indexName)});
-      } else {
-        return this.setState(prevState => {
-          const current = {...prevState.timesOfNomination};
-          current[i].times = v.times -1;
-        });
+    //remove from timesOfNomination
+    for (let [ i, v] of this.state.timesOfNomination.entries()) {
+      if(v.name === indexName) {
+        if(v.times === 1) {
+          return this.setState({timesOfNomination: this.state.timesOfNomination.filter(i => i.name !== indexName)});
+        } else {
+          return this.setState(prevState => {
+            const current = {...prevState.timesOfNomination};
+            current[i].times = v.times -1;
+          });
+        }
       }
     }
   }
-  
-}
 
 
 
   
   render () {
-    var show = this.state.winner === "" ? "hide" : "show winner-container";
-    var hideButton = this.state.winner === "" ? "show" : "hide";
-    var hideInput = this.state.winner === "" ? "show" : "hide";
-    var hideStartButton = this.state.winner === "" ? "hide" : "show";
-    
+    let show = this.state.winner === "" ? "hide" : "show winner-container";
+    let formInputs;
+    let formButtons;
+
+    if(!this.state.winner) {
+      formInputs = <Inputs
+                      onKeyPress={this.handleOnKeyPress.bind(this)}
+                      onChange={this.onInputChange.bind(this)}
+                      quantityChange={this.onMultipleInputChange.bind(this)} />
+
+      formButtons = <Buttons
+                      label = {this.state.labelButton}
+                      onClick={this.handleWinner.bind(this)}/>
+    } else {
+      formButtons = <Buttons
+                      label = {this.state.labelButton}
+                      onClick={this.startAgain.bind(this)}/>
+    }
+
     const nominees = this.state.timesOfNomination.map((value, i) => {
       const name = value.name;
       let times = "";
@@ -193,8 +210,8 @@ class App extends React.Component {
           fontSize: '25px',
         };
       }
-
-      return (<li key={i} style={liStyle} className="animated fadeInUp" onClick={() => this.removeNom(i)} > {name} <span>{times}</span></li>)
+// return (<Nominee key={i} style={liStyle} className="animated fadeInUp" onClick={() => this.removeNom(i)} > {name} <span>{times}</span></li>)
+      return (<Nominee name={name} times={times} key={i} style={liStyle} clickFn={() => console.log(this)} />)
     })
     
     return (
@@ -202,21 +219,18 @@ class App extends React.Component {
         <div className="forms">
           <h1>PNI Creative <br/> Crushing it! Award</h1>
           <div>
-            <Inputs 
-              hideInput={hideInput}
-              onKeyPress={this.handleOnKeyPress.bind(this)}/>
-            <Buttons 
-              hideButton={hideButton}
-              hideStartButton={hideStartButton}
-              handleWinner={this.handleWinner.bind(this)}
-              startAgain={this.startAgain.bind(this)}/>
+            {formInputs}
+            {formButtons}
           </div>
         </div>
         <div className="content">
           <ul>
             {nominees}
+            <Nominee />
           </ul>
-          <Winner winner={this.state.winner} hide={show} />
+          <Winner 
+            winner={this.state.winner} 
+            hide={show} />
         </div>
        
       </div>
