@@ -4,8 +4,7 @@ class Buttons extends React.Component {
     render () {
         return (
             <div>
-                <button className={this.props.hideButton} onClick={this.props.handleWinner}>CRUSHING IT!!</button>
-                <button className={this.props.hideStartButton} onClick={this.props.startAgain}>Start Again</button> 
+                <button onClick={this.props.onClick}>{this.props.label}</button>
             </div>
         )
     }
