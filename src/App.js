@@ -108,33 +108,26 @@ class App extends React.Component {
         this.handleAdd();
     }
   }
-  
-  handleWinner (e) {
-	  e.target.blur();
-    this.setState({
-      input: '',
-      labelButton: "Start Again"
-    });
 
-    const nominees = this.state.nominees;
-    
-    var nomLength = nominees.length;
-    var timeMultiplier = 1;
-    
-    while(nomLength > 1) {
- 
-        setTimeout(() => {
-          this.removeNom(Math.floor(Math.random()*(this.state.nominees.length)))
-        }, 500*timeMultiplier);
-        
-        timeMultiplier++;
-        nomLength--;
+  // this removes one nominee from the array
+  popOut() {
+    this.removeNom(Math.floor(Math.random()*(this.state.nominees.length)));
+  }
 
-        if (nomLength === 1) {
-          setTimeout(() => {
-            const winner =  this.state.nominees[0];
-
-            db.addNomineesToDb(nominees, winner).then((data) => {
+  // this is a recursive function that removes nominees until there is one left, 
+  // then handles the winner
+  reduceNominees(nomLength) {
+    this.popOut();
+    var nomLength = nomLength;
+    nomLength--;
+    setTimeout(() => {
+      if(nomLength > 1) {        
+        this.reduceNominees(nomLength);
+      }
+      else if(nomLength == 1) {
+        const winner = this.state.nominees[0];
+        db.addNomineesToDb(this.state.nominees, winner).then(() => {
+            db.getProfile(winner).then((data) => {
               this.setState({
                 winner: winner,
                 nominees: [],
@@ -142,11 +135,25 @@ class App extends React.Component {
                 winnerWins: data.wins,
                 winnerNominations: data.nominations
               })
-            });
-          
-        }, 500*timeMultiplier);
+            })
+          });
       }
-    }
+    }, 500);
+  } 
+
+  handleWinner (e) {
+	  e.target.blur();
+    this.setState({
+      input: '',
+      labelButton: "Start Again"
+    });
+    
+    const nominees = this.state.nominees;
+    let nomLength = nominees.length;
+    let timeMultiplier = 1; 
+    
+    // kick-off recursive function to find winner
+    this.reduceNominees(nomLength);
   }
   
   startAgain(e) {
