@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import Json from './Json';
 import Profile from './Profile';
+import Leaderboard from './Leaderboard';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
@@ -14,6 +15,7 @@ const routing = (
       <Route exact path="/" component={App} />
       <Route path="/json" component={Json} />
       <Route exact path="/profile/:id" component={Profile} />
+      <Route exact path="/leaderboard/" component={Leaderboard} />
 
     </div>
   </Router>
