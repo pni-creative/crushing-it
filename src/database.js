@@ -1,8 +1,8 @@
 import AWS from "aws-sdk"
 
 AWS.config.update({
-  accessKeyId: "AKIASTVPISGVWVM2G44X",
-  secretAccessKey: "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",
+  accessKeyId: process.env.REACT_APP_DYNAMO_KEY,
+  secretAccessKey: process.env.REACT_APP_DYNAMO_SECRET,
   region: "us-west-2",
   endpoint: "https://dynamodb.us-west-2.amazonaws.com"
 });
