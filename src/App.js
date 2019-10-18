@@ -16,8 +16,7 @@ class App extends React.Component {
       input: "",
       quantityField: "1",
       labelButton: "CRUSHING IT!!",
-      winnerWins: "",
-      winnerNominations: ""
+      isWinnerSet: false
     }
   }
 
@@ -134,13 +133,12 @@ class App extends React.Component {
           setTimeout(() => {
             const winner =  this.state.nominees[0];
 
-            db.addNomineesToDb(nominees, winner).then((data) => {
+            db.addNomineesToDb(nominees, winner).then(() => {
               this.setState({
                 winner: winner,
                 nominees: [],
                 timesOfNomination: [],
-                winnerWins: data.wins,
-                winnerNominations: data.nominations
+                isWinnerSet: true
               })
             });
           
@@ -210,9 +208,8 @@ class App extends React.Component {
 						label = {this.state.labelButton}
 						onClick={this.startAgain.bind(this)}/>
 		winnerContent = <Winner 
-            winner={this.state.winner}
-            wins={this.state.winnerWins}
-            nominations={this.state.winnerNominations} />
+            winner={this.state.winner} 
+            isWinnerSet={this.state.isWinnerSet}/>
 	}
 
     return (
