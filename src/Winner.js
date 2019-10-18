@@ -11,19 +11,20 @@ class Winner extends React.Component {
     };
   }
   
-  async componentDidMount() {
+   componentDidMount() {
     let name = this.props.winner;
     let nameUppercased = name.charAt(0).toUpperCase() + name.slice(1);
     if (this.props.isWinnerSet) {
-      const result = await db.getProfile(name);
-      let suffixedWinNumber = this.ordinalSuffixOf(result.wins);
-      let suffixedNominationNumber = this.ordinalSuffixOf(result.nominations);
-  
-      this.setState({
-        name: nameUppercased,
-        wins: suffixedWinNumber, 
-        nominations: suffixedNominationNumber
-      });
+      db.getProfile(name).then((result) => {
+        let suffixedWinNumber = this.ordinalSuffixOf(result.wins);
+        let suffixedNominationNumber = this.ordinalSuffixOf(result.nominations);
+    
+        this.setState({
+          name: nameUppercased,
+          wins: suffixedWinNumber, 
+          nominations: suffixedNominationNumber
+        });
+      })
     }
   }
 
