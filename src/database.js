@@ -10,8 +10,7 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 // CHANGE TO "CrushinDev" WHEN DEVELOPING
-// CHANGE TO "Crushin" WHEN COMMITING
-const table = "CrushinDev";
+const table = process.env.REACT_APP_TABLE;
 
 const DB = class  {
 
@@ -149,6 +148,33 @@ const DB = class  {
     });
 
     return this.getProfile(winner);
+  }
+
+  getJson = async () => {
+    let params = {
+      TableName: table,
+    };
+
+    let scanResults = [];
+
+    do {
+
+      await docClient.scan(params).promise()
+        .then(function(data) {
+           data.Items.forEach(function(data) {
+             scanResults.push(JSON.stringify(data, null, 2));
+           });
+           params.ExclusiveStartKey = data.LastEvaluatedKey;
+         })
+         .catch(function(err) {
+           console.log(err);
+         });
+
+    } while ( typeof params.LastEvaluatedKey != "undefined" );
+
+    scanResults.join(',');
+
+    return `[${scanResults}]`;
   }
 }
 

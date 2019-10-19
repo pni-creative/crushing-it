@@ -1,10 +1,25 @@
 import React from 'react'
-var db = require("./database.js");
+import db from './database';
 
 class Json extends React.Component {
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+
+  async componentDidMount() {
+    const result = await db.getJson();
+
+    this.setState({
+      data: result
+    });
+  }
 	
   render() {
-    return <pre id="data">{db.read('data')}</pre>
+    return <pre>{this.state.data}</pre>
   }
 }
 
