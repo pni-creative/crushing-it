@@ -13,7 +13,7 @@ class Profile extends React.Component {
   }
   
   async componentDidMount() {
-    let name = this.props.match.params.id;
+    let name = this.props.match.params.id.toLowerCase();
     let nameUppercased = name.charAt(0).toUpperCase() + name.slice(1);
     const result = await db.getProfile(name);
 
