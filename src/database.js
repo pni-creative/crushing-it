@@ -138,16 +138,60 @@ const DB = class  {
         "names": nominees,
       }
     }
+    //TODO: MAKE THIS PRETTY
+    
+    function addToDbPromise() {
+      return new Promise((resolve, reject) => {
+        docClient.put(params, async (err, data) => {
+          if(err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+          } else {
+            console.log("Added item:", JSON.stringify(data, null, 2));
+            let params = {
+              TableName: table,
+            };
+        
+            let scanResults = {};
+            let items;
+            do {
+              items =  await docClient.scan(params).promise();
+                     
+              let tCount = 0;
+              let wins = 0;
+              
+              items.Items.forEach(function(data) {
 
-    docClient.put(params, function(err, data) {
-      if(err) {
-        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-      } else {
-        console.log("Added item:", JSON.stringify(data, null, 2));
-      }
-    });
+                var count = 0;
+  
+                for (var i = 0; i < data.names.length; i++) {
+                  if (data.names[i].toLowerCase() === winner.toLowerCase()) {
+                    count++;
+                  }
+                }
+                if (data.winner.toLowerCase() === winner.toLowerCase()) {
+                  wins++;
+                }
+                tCount += count;					
+              });
+        
+              scanResults = {
+                wins: wins,
+                nominations: tCount
+              }
+        
+              params.ExclusiveStartKey  = items.LastEvaluatedKey;
+            
+            } while ( typeof items.LastEvaluatedKey != "undefined" );
+        
+            resolve(scanResults);
+            }
+        });
+      })
+    }
 
-    return this.getProfile(winner);
+    return addToDbPromise().then(function(scanResults) {
+      return scanResults
+    })
   }
 
   getJson = async () => {
