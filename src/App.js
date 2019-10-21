@@ -3,8 +3,8 @@ import Nominee from './Nominee';
 import Winner from './Winner';
 import Inputs from './Inputs';
 import Buttons from './Buttons';
+import db from './database';
 import './App.scss';
-var db = require("./database.js");
 
 class App extends React.Component {
   constructor(props){
@@ -15,14 +15,16 @@ class App extends React.Component {
       timesOfNomination: [],
       input: "",
       quantityField: "1",
-      labelButton: "CRUSHING IT!!"
+      labelButton: "CRUSHING IT!!",
+      winnerWins: "",
+      winnerNominations: ""
     }
   }
 
   onInputChange(e) { 
 		let value = e.target.value.toLowerCase();
 		this.setState({input: value}); 
-    }
+  }
 
   onMultipleInputChange(e) { this.setState({quantityField: e.target.value}); }
   
@@ -107,10 +109,12 @@ class App extends React.Component {
     }
   }
   
-  handleWinner(e) {
-	e.target.blur();
-    this.setState({input: ''});
-    this.setState({labelButton: "Start Again"})
+  handleWinner (e) {
+	  e.target.blur();
+    this.setState({
+      input: '',
+      labelButton: "Start Again"
+    });
 
     const nominees = this.state.nominees;
     
@@ -119,37 +123,44 @@ class App extends React.Component {
     
     while(nomLength > 1) {
  
-      setTimeout(() => {
-        this.removeNom(Math.floor(Math.random()*(this.state.nominees.length)))
-      }, 500*timeMultiplier);
-      
-      timeMultiplier++;
-      nomLength--;
-
-      if (nomLength === 1) {
-        
         setTimeout(() => {
-          
-          const winner =  this.state.nominees[0];
-          this.setState({winner: winner});
-          this.setState({nominees: []});
-          this.setState({timesOfNomination: []});
-
-          db.add(nominees, winner);
+          this.removeNom(Math.floor(Math.random()*(this.state.nominees.length)))
+        }, 500*timeMultiplier);
         
-      }, 500*timeMultiplier);
+        timeMultiplier++;
+        nomLength--;
+
+        if (nomLength === 1) {
+          setTimeout(() => {
+            const winner =  this.state.nominees[0];
+
+            db.addNomineesToDb(nominees, winner).then((data) => {
+              this.setState({
+                winner: winner,
+                nominees: [],
+                timesOfNomination: [],
+                winnerWins: data.wins,
+                winnerNominations: data.nominations
+              })
+            });
+          
+        }, 500*timeMultiplier);
+      }
     }
   }
- }
   
   startAgain(e) {
-	e.target.blur();
-
-    this.setState({winner: ""});
-    this.setState({nominees: []});
-	this.setState({timesOfNomination: []});
-	this.setState({labelButton: "CRUSHING IT!"})
-    }
+    e.target.blur();
+    
+    this.setState({
+      winner: "",
+      nominees: [],
+      timesOfNomination: [],
+      labelButton: "CRUSHING IT!",
+      winnerWins: "",
+      winnerNominations: ""
+    })
+  } 
     
   removeNom(index) {
     var noms = [...this.state.nominees]; 
@@ -177,9 +188,9 @@ class App extends React.Component {
 
   render () {
     let formInputs;
-	let formButtons;
-	let nomineeList;
-	let winnerContent;
+    let formButtons;
+    let nomineeList;
+    let winnerContent;
 
     if(!this.state.winner) {
 		formInputs = <Inputs
@@ -199,7 +210,9 @@ class App extends React.Component {
 						label = {this.state.labelButton}
 						onClick={this.startAgain.bind(this)}/>
 		winnerContent = <Winner 
-						winner={this.state.winner} />
+            winner={this.state.winner}
+            wins={this.state.winnerWins}
+            nominations={this.state.winnerNominations} />
 	}
 
     return (
@@ -212,8 +225,8 @@ class App extends React.Component {
           </div>
         </div>
         <div className="content">
-			{nomineeList}
-			{winnerContent}
+            {nomineeList}
+            {winnerContent}
         </div>
        
       </div>
