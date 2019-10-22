@@ -6,6 +6,7 @@ import Buttons from './Buttons';
 import db from './database';
 import fbRef from './databaseRT';
 import './App.scss';
+import './themes/pages/leaderboard.scss';
 
 class App extends React.Component {
   constructor(props){
@@ -23,6 +24,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+
+    var month = new Date().toLocaleString('default', { month: 'long' }).toLowerCase();
+    document.body.classList.add(month);
+    try {
+      require(`./themes/${month}.scss`);
+    }
+    catch(err) {
+      require('./themes/default.scss');
+    }
+
     const refObj =  fbRef.ref();
     var arr = [];
     refObj.on('value', snapshot => {
@@ -57,6 +68,10 @@ class App extends React.Component {
       this.setState({nominees: arrN});
     });
   }
+
+
+
+
 
   onInputChange(e) { 
 		let value = e.target.value.toLowerCase();
