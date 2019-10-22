@@ -4,6 +4,7 @@ import Winner from './Winner';
 import Inputs from './Inputs';
 import Buttons from './Buttons';
 import db from './database';
+import fbRef from './databaseRT';
 import './App.scss';
 
 class App extends React.Component {
@@ -21,6 +22,42 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const refObj =  fbRef.ref();
+    var arr = [];
+    refObj.on('value', snapshot => {
+
+      var arrN = [];
+
+      snapshot.forEach((child) => {   
+        if ( child.val().votes ) {
+          console.log('v:', child.val().name);
+          console.log('len2:', Object.keys(child.val().votes).length);
+          var len2 =  Object.keys(child.val().votes).length;
+          var v = child.val().name;
+          let nn = true;
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i].name === v) {
+              nn = false;
+              arr[i].times = len2;
+            }
+          }
+          if (nn) {  arr.push({name: v, times: len2}); } 
+        
+    
+        for (var i = 0; i < len2; i++) {
+          arrN.push(v);
+        }
+        }
+        
+        
+
+      });
+      this.setState({timesOfNomination: arr});
+      this.setState({nominees: arrN});
+    });
+  }
+
   onInputChange(e) { 
 		let value = e.target.value.toLowerCase();
 		this.setState({input: value}); 
@@ -31,6 +68,7 @@ class App extends React.Component {
   handleAdd() {
     let multiplier = this.state.quantityField;
     let nominee = this.state.input;
+    nominee = nominee.charAt(0).toUpperCase() + nominee.slice(1);
 
     if (nominee === "test") {
       var testNames = 
@@ -141,7 +179,12 @@ class App extends React.Component {
                 timesOfNomination: [],
                 winnerWins: data.wins,
                 winnerNominations: data.nominations
-              })
+              });
+const refObj = fbRef.ref('votes')
+refObj.once('value', (snapshot) => {
+     snapshot.ref.remove();
+
+});
             });
           
         }, 500*timeMultiplier);
@@ -150,7 +193,8 @@ class App extends React.Component {
   }
   
   startAgain(e) {
-    e.target.blur();
+   e.target.blur();
+    
     
     this.setState({
       winner: "",
