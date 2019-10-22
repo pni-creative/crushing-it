@@ -5,6 +5,7 @@ import Inputs from './Inputs';
 import Buttons from './Buttons';
 import db from './database';
 import './App.scss';
+import './themes/pages/leaderboard.scss';
 
 class App extends React.Component {
   constructor(props){
@@ -20,6 +21,18 @@ class App extends React.Component {
       winnerNominations: ""
     }
   }
+
+  componentDidMount() {
+    var month = new Date().toLocaleString('default', { month: 'long' }).toLowerCase();
+    document.body.classList.add(month);
+    try {
+      require(`./themes/${month}.scss`);
+    }
+    catch(err) {
+      require('./themes/default.scss');
+    }
+}
+
 
   onInputChange(e) { 
 		let value = e.target.value.toLowerCase();

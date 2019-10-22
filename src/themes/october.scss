@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css?family=Croissant+One|Henny+Penny&display=swap');
+
+body.october {
+      height: 100vh;
+      background: 
+      url(../img/october/bottom-grass.svg) center bottom no-repeat,
+      linear-gradient(to top, #813852 0%,#2c0047 100%);
+      background-size: 100% auto;
+      position: relative;
+      color: #252429;
+      z-index: -10;
+      &:after {
+          content: '';
+          width: 30vw;
+          height: 50vh;
+          display: block;
+          position: absolute;
+          bottom: 0;
+          right: 10vw;
+          background: url(../img/october/pumpkins.svg) center bottom no-repeat;
+      }
+      &:before {
+          content: '';
+          width: 30vw;
+          height: 50vh;
+          display: block;
+          position: absolute;
+          bottom: 0;
+          right: 10vw;
+          background:
+          url(../img/october/pumpkins-color-dodge.svg) center bottom no-repeat;
+          mix-blend-mode: color-dodge;
+          z-index: 100;
+      }
+      .container {
+        overflow: hidden;
+        width: 100%;
+        height: 100vh;
+        background: url(../img/october/tree-right.svg) center right no-repeat,
+        url(../img/october/tree-left.svg) top left no-repeat;
+        background-size: 45vh;
+        position: relative;
+        &:before {
+          content: '';
+          display: inline;
+          position: absolute;
+          width: 80%;
+          height: 100%;
+          background: red;
+          top: -20%;
+          left: 0;
+          right: 0;
+          margin: auto;
+          z-index: -8;
+          background: url(../img/october/lights-behind-form.svg) top left no-repeat;
+          mix-blend-mode: screen;
+        }
+        &:after {
+          content: '';
+          display: inline;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: red;
+          top: -20%;
+          left: 0;
+          right: 0;
+          margin: auto;
+          opacity: 0.5;
+          z-index: -5;
+          background: url(../img/october/background-wind-left.svg) top left no-repeat;
+          animation: wind 15s ease-in-out -2s infinite;
+        }
+      }
+      .forms {
+        background: linear-gradient(to bottom, #ffffff 14%,#b39aab 99%);
+        box-shadow: 15px 15px 0px 0px rgba(84,17,58,0.8);
+        width: 65vw;
+        height: 70vh;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top:-5vh;
+        bottom: 0;
+        padding: 30px 80px;
+        &:before {
+          content: '';
+          display: inline;
+          position: absolute;
+          width: 9vw;
+          height: 100%;
+          background: red;
+          top: -5vh;
+          right: -4.5vw;
+          z-index: 0;
+          background: url(../img/october/orange-black-balloons.svg) top left no-repeat;
+        }
+        &:after {
+          content: '';
+          display: inline;
+          position: absolute;
+          width: 12vw;
+          height: 100%;
+          background: red;
+          top: 0;
+          left: -7.5vw;
+          right: 0;
+          z-index: 0;
+          background: url(../img/october/white-black-balloons.svg) top left no-repeat;
+        }
+      }
+      h1 {
+        font-family: 'Croissant One', sans-serif;
+        text-transform: lowercase;
+        font-size: 40px;
+        line-height: 1.2;
+        max-width: 20vw;
+        color:#35215b;
+        &:after {
+          content: 'spooky edition';
+          font-family: 'Henny Penny', sans-serif;
+          display: block;
+          letter-spacing: 1px;
+          font-size: 28px;
+          margin: 20px 0;
+          color: #d93669;
+        }
+      }
+      .content {
+        position: absolute;
+        left: 43vw;
+        top: 15vh;
+        width:38vw;
+        ul {
+          li {
+            display: inline-block;
+            margin: 0 8px;
+            font-family: 'Henny Penny', sans-serif;
+            letter-spacing: 0.5px;
+            span {
+              font-family: 'Croissant One', sans-serif;
+              color: #f19200;
+            }
+          }
+        }
+      }
+
+      input {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #35215b;
+        padding: 10px 0;
+        font-size: 22px;
+        width: 200px;
+        color:#35215b;
+        letter-spacing: -0.5px;
+        font-family: 'Croissant One', sans-serif;
+        &:focus {
+          outline: none;
+        }
+            &::placeholder {
+              color: rgba(#6d2a4f, 0.5);
+            }
+      }
+
+      input#plus {
+        width: 60px;
+        margin-left: 10px;
+        text-align: center;
+      }
+      button {
+        background: transparent;
+        border: none;
+        position: absolute;
+        bottom: 2%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        display: block;
+        width: 98%;
+        height: 56px;
+        font-family: 'Croissant One', sans-serif;
+        text-transform: lowercase;
+        font-size: 30px;
+        background: #df6618;
+        border: 3px solid orange;
+        color: white;
+        box-shadow: 0 0 15px rgba(#ffb100,1); 
+        text-shadow: 2px 2px darken(#af3d11, 5%);
+      }
+      .winner-container {
+        text-align: center;
+        font-size: 30px;
+        padding-top: 15vh;
+
+        .winner {
+          font-family: 'Henny Penny', sans-serif;
+          font-size: 65px;
+          margin: 10px;
+          
+        }
+        p {
+          font-size: 22px;
+          font-family: 'Henny Penny', sans-serif;
+          font-weight: bold;
+          letter-spacing: 1px;
+          margin: 0;
+        }
+      }
+
+
+
+      .confetti {
+        width: 15px;
+        height: 15px;
+        background-color: #f2d74e;
+        position: absolute;
+        left: 50%;
+        animation: confetti 5s ease-in-out -2s infinite;
+        transform-origin: left top;
+      }
+      .confetti:nth-child(1) {
+        background-color: #ffbf15; left: 10%; animation-delay: 0;
+      }
+      .confetti:nth-child(2) {
+        background-color: #ff9e11; left: 20%; animation-delay: -5s;
+      }
+      .confetti:nth-child(3) {
+        background-color: #ef497d; left: 30%; animation-delay: -3s;
+      }
+      .confetti:nth-child(4) {
+        background-color: #3a393e; left: 40%; animation-delay: -2.5s;
+      }
+      .confetti:nth-child(5) {
+        background-color: #4d4d50; left: 50%; animation-delay: -4s;
+      }
+      .confetti:nth-child(6) {
+        background-color: #ff9810; left: 60%; animation-delay: -6s;
+      }
+      .confetti:nth-child(7) {
+        background-color: #f2d74e; left: 70%; animation-delay: -1.5s;
+      }
+      .confetti:nth-child(8) {
+        background-color: #a59cb7; left: 80%; animation-delay: -2s;
+      }
+      .confetti:nth-child(9) {
+        background-color: #bcc833; left: 90%; animation-delay: -3.5s;
+      }
+      .confetti:nth-child(10) {
+        background-color: #eb7921; left: 100%; animation-delay: -2.5s;
+      }
+      @keyframes confetti {
+        0% { transform: rotateZ(15deg) rotateY(0deg) translate(0,0); }
+        25% { transform: rotateZ(5deg) rotateY(360deg) translate(-5vw,20vh); }
+        50% { transform: rotateZ(15deg) rotateY(720deg) translate(5vw,60vh); }
+        75% { transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw,80vh); }
+        100% { transform: rotateZ(15deg) rotateY(1440deg) translate(10vw,110vh); }
+      }
+}
+
+
+@keyframes wind {
+  0% { transform: translateY(-50px) scale(1.1) }
+  50% { transform: translateY(20px) scale(1)}
+  100% { transform: translateY(-50px) scale(1.1)}
+}
+
+
+
+
+
+
+
+
+
+
+
