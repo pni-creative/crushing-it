@@ -6,6 +6,7 @@ import Buttons from './Buttons';
 import db from './database';
 import './App.scss';
 import './themes/pages/leaderboard.scss';
+import './themes/pages/profile.scss';
 
 class App extends React.Component {
   constructor(props){

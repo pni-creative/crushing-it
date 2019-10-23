@@ -36,4 +36,27 @@ ul {
   padding: 0;
 }
 
+@keyframes hue {
+  from {
+    -webkit-filter: hue-rotate(0deg);
+  }
+  to {
+    -webkit-filter: hue-rotate(-360deg);
+  }
+}
+
+@keyframes hue2 {
+  0% {
+    -webkit-filter: hue-rotate(0deg);
+  border-radius: 52% 70% 70% 52% / 52% 52% 70% 70%;}
+    25% {
+  border-radius: 60% 52% 52% 70% / 80% 52% 90% 60%;}
+    50% {
+  border-radius: 65% 95% 75% 65% / 85% 65% 95% 75%;}
+    75% {
+  border-radius: 90% 70% 60% 80% / 60% 70% 80% 90%;}
+  100% {
+    -webkit-filter: hue-rotate(-360deg);
+  border-radius: 52% 70% 70% 52% / 52% 52% 70% 70%;} 
+}
 

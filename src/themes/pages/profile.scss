@@ -1,0 +1,22 @@
+.profile-wrapper {
+  background: linear-gradient(#ec008c,#fc6767);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  width: 600px;
+  height: 600px;
+  margin: calc((100vh - 600px)/2) auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  animation: hue2 20s ease-in-out alternate infinite;
+
+  h2 {
+    font-size: 42px;
+  }
+
+  h3 {
+    font-size: 28px;
+    margin: 0;
+  }
+}
