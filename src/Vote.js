@@ -10,29 +10,20 @@ class Vote extends React.Component {
     };
   }
 
+  writeUserData(userID, event) {
+    var newChildRef = fbRef.ref(userID + '/votes/').push();
+    newChildRef.set({
+      plus_one: true
+    });
 
-
-writeUserData(userID) {
-var newChildRef = fbRef.ref(userID + '/votes/').push();
-  newChildRef.set({
-    plus_one: true
-  });
-}
-
-readData() {
-  const refObj = fbRef.ref();
-  
-refObj.on('value', snapshot => console.log('pojo', snapshot.val()));
-}
+    event.target.classList.add("vote-btn--disabled");
+  }
 
 
   componentDidMount() {
 
-    //this.writeUserData(true);
-
-    this.readData();
-    var topUserPostsRef = fbRef.ref().orderByChild('name');
-    topUserPostsRef.once('value', snapshot => {
+    var namesRef = fbRef.ref('/_lineup').orderByChild('name');
+    namesRef.once('value', snapshot => {
 
       snapshot.forEach((childSnapshot) => {
         var childKey = childSnapshot.key;
@@ -45,17 +36,17 @@ refObj.on('value', snapshot => console.log('pojo', snapshot.val()));
           data: [...prevState.data, {id: childKey, name: childData.name}]
         }));
       });
-
-      
-
-  });
-}
+    });
+  }
 	
   render() {
     const listItems = this.state.data.map((items, i) =>
-        <li key={i} onClick={() => this.writeUserData(items.id)} className="vote-list-item">{items.name}</li>
+        <button 
+          key={i} 
+          onDoubleClick={(e) => this.writeUserData(items.id, e)}>{items.name}
+        </button>
       );
-    return <ul className="vote-list">{listItems}</ul>
+    return <div className="vote-list">{listItems}</div>
 
   }
 }

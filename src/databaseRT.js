@@ -5,7 +5,13 @@ import 'firebase/database';
 
 // Firebase configuration
 const firebaseConfig = {
-  
+  apiKey: process.env.REACT_APP_FB_KEY,
+  authDomain: "crushin-it.firebaseapp.com",
+  databaseURL: "https://crushin-it.firebaseio.com",
+  projectId: "crushin-it",
+  storageBucket: "crushin-it.appspot.com",
+  messagingSenderId: process.env.REACT_APP_FB_MSG_ID,
+  appId: process.env.REACT_APP_FB_APP_ID
 };
 
 // Initialize Firebase
