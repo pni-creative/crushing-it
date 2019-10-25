@@ -7,8 +7,7 @@ import db from './database';
 import './App.scss';
 import './themes/pages/leaderboard.scss';
 import './themes/pages/profile.scss';
-import mp3AudioOne from './audio/heresjohnny.mp3'; //mp3 for halloween
-import mp3AudioTwo from './audio/playwithus.mp3'; //mp3 for halloween
+import mp3Audio from './audio/playwithus.mp3'; //mp3 for halloween
 
 class App extends React.Component {
   constructor(props){
@@ -168,8 +167,7 @@ class App extends React.Component {
   }
   
   handleAudio() {
-    // let audio = new Audio(mp3AudioOne);
-    let audio = new Audio(mp3AudioTwo);
+    let audio = new Audio(mp3Audio);
     audio.play();
   }
 
