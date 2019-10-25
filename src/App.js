@@ -6,6 +6,8 @@ import Buttons from './Buttons';
 import db from './database';
 import './App.scss';
 import './themes/pages/leaderboard.scss';
+import './themes/pages/profile.scss';
+import mp3Audio from './audio/playwithus.mp3'; //mp3 for halloween
 
 class App extends React.Component {
   constructor(props){
@@ -133,6 +135,8 @@ class App extends React.Component {
     
     var nomLength = nominees.length;
     var timeMultiplier = 1;
+
+    this.handleAudio(); //audio for halloween
     
     while(nomLength > 1) {
  
@@ -162,6 +166,11 @@ class App extends React.Component {
     }
   }
   
+  handleAudio() {
+    let audio = new Audio(mp3Audio);
+    audio.play();
+  }
+
   startAgain(e) {
     e.target.blur();
     
@@ -210,11 +219,10 @@ class App extends React.Component {
 						input={this.state.input}
 						onKeyPress={this.handleOnKeyPress.bind(this)}
 						onChange={this.onInputChange.bind(this)}
-						quantityChange={this.onMultipleInputChange.bind(this)} />
-
+						quantityChange={this.onMultipleInputChange.bind(this)}/>
 		formButtons = <Buttons
 						label = {this.state.labelButton}
-						onClick={this.handleWinner.bind(this)}/>
+						onClick={this.handleWinner.bind(this) }  />
 		nomineeList = <Nominee
 						timesOfNomination={this.state.timesOfNomination} 
 						clickFn={(i) => this.removeNom(i)} />
@@ -241,7 +249,6 @@ class App extends React.Component {
             {nomineeList}
             {winnerContent}
         </div>
-       
       </div>
     )
   }
