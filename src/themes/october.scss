@@ -31,6 +31,7 @@ body.october {
       url(../img/october/pumpkins-color-dodge.svg) center bottom no-repeat;
       mix-blend-mode: color-dodge;
       z-index: 100;
+      animation: lights 7s ease-in-out infinite;
   }
   .container {
     overflow: hidden;
@@ -268,6 +269,14 @@ body.october {
   50% { opacity: 0.50; }
   75% { opacity: 0.05; }
   100% { background-position: -100vw 0; opacity: 0.5; }
+}
+
+@keyframes lights {
+  0% { opacity: 0.5; }
+  25% { opacity: 0.05; }
+  50% { opacity: 0.75; }
+  75% { opacity: 0.25; }
+  100% { opacity: 0.5; }
 }
 
 @keyframes baloons {
