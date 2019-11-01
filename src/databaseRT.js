@@ -18,7 +18,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // Get a reference to the database service
-const fbRef = firebase.database();
+const fbRef = firebase;
 
 
 export default fbRef;

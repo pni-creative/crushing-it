@@ -1,7 +1,7 @@
 import React from 'react'
 import fbRef from './databaseRT';
 
-class Vote extends React.Component {
+class Ninja extends React.Component {
   
   constructor(props){
     super(props);
@@ -11,6 +11,14 @@ class Vote extends React.Component {
       startVoting: null,
       startTime: parseInt(localStorage.getItem('startTime')) || 0
     }
+  }
+  
+  setVoteSession() {
+    var startVoteRef = fbRef.database().ref('/_voteSession/');
+    startVoteRef.set({
+      isOpen: true,
+      startTime: fbRef.database.ServerValue.TIMESTAMP
+    });
   }
 
   writeUserData(userName, userID) {
@@ -25,8 +33,8 @@ class Vote extends React.Component {
     () => {
       localStorage.setItem('myVotes', JSON.stringify(this.state.myVotes));
     })
-  }
-
+  }  
+ 
   componentDidMount() {
     var startVoteRef = fbRef.database().ref('/_voteSession');
     startVoteRef.on('value', snapshot => {
@@ -62,7 +70,9 @@ class Vote extends React.Component {
           disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
         </button>
       );
-   const seeYouLater = <div className="vote-closed-wrapper"><img src="https://media.giphy.com/media/10WCpxxwoQ9dKM/giphy.gif"/></div>
+
+   const startVoteCTA = <button className="start-vote" onClick={() => this.setVoteSession()}>Open Voting</button>
+   const voteInProgress = <p className="vote-in-progress">Voting in progress</p>
    const voteCounter = <p>You have {5 - this.state.myVotes.length} votes remaining</p>
    
     return (
@@ -71,10 +81,13 @@ class Vote extends React.Component {
           {this.state.startVoting ? voteCounter : null}
         </header>
          {this.state.startVoting === true ? listItems : null}
-         {this.state.startVoting === false ? seeYouLater : null}
+        <footer className="vote-footer">
+         {this.state.startVoting === true ? voteInProgress : null}
+         {this.state.startVoting === false ? startVoteCTA : null}
+        </footer>
       </div>
     );
   }
 }
 
-export default Vote
+export default Ninja

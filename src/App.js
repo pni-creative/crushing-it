@@ -37,53 +37,8 @@ class App extends React.Component {
       require('./themes/default.scss');
     }
 
-    
+    this.startListening();
 
-    const refObj =  fbRef.ref();
-
-    refObj.on('value', snapshot => {
-
-      var nomineesCopy = [];
-
-      var timesOfNominationCopy = this.state.timesOfNomination;
-
-      for (var i = 0; i < timesOfNominationCopy.length; i++) {
-       timesOfNominationCopy[i].times = 0;
-      }
-
-      snapshot.forEach((child) => {   
-        if ( child.val().votes ) {
-          console.log('v:', child.val().name);
-          console.log('len2:', Object.keys(child.val().votes).length);
-          var len2 =  Object.keys(child.val().votes).length;
-          var v = child.val().name;
-          let nn = true;
-          
-          for (var i = 0; i < timesOfNominationCopy.length; i++) {
-            if (timesOfNominationCopy[i].name === v) {
-              nn = false;
-console.log('current', timesOfNominationCopy[i].times);
-              timesOfNominationCopy[i].times += len2;
-            }
-          }
-          if (nn) {  timesOfNominationCopy.push({name: v, times: len2}); } 
-          
-
-          for (var i = 0; i < len2; i++) {
-            nomineesCopy.push(v);
-          }
-          
-        }
-        
-      });
-      this.setState({timesOfNomination: timesOfNominationCopy});
-console.log(this.state.timesOfNomination);
-
-      this.setState({
-        nominees: nomineesCopy
-      });
-      console.log('nst: ', this.state.nominees);
-    });
   }
 
 
@@ -112,14 +67,14 @@ console.log(this.state.timesOfNomination);
       m = 1;
     }
 
-    var writeInNom = fbRef.ref().push();
+    var writeInNom = fbRef.database().ref().push();
 
     writeInNom.set({
       name: n
     });
 
     for (var i = 0; i < m; i++) {
-      var newChildRef = fbRef.ref(writeInNom.key + '/votes/').push();
+      var newChildRef = fbRef.database().ref(writeInNom.key + '/votes/').push();
       newChildRef.set({
         plus_one: true
       });
@@ -145,6 +100,8 @@ console.log(this.state.timesOfNomination);
     var timeMultiplier = 1;
 
     this.handleAudio(); //audio for halloween
+    
+    this.closeVoting();
     
     while(nomLength > 1) {
  
@@ -196,8 +153,8 @@ console.log(this.state.timesOfNomination);
   } 
 
   //Reset votes in firebase DB
-  resetVotesFB() {
-    var fbObj = fbRef.ref();
+   resetVotesFB() {
+    var fbObj = fbRef.database().ref();
     fbObj.once('value', snapshot => {
 
       snapshot.forEach((childSnapshot) => {
@@ -205,7 +162,79 @@ console.log(this.state.timesOfNomination);
       });
     });
   }
-    
+  
+  closeVoting() {
+    var voteSessRef = fbRef.database().ref('/_voteSession/');
+    voteSessRef.set({
+      isOpen: false
+    });
+  }
+
+  //reset votes and start listening. not used
+  resetStart() {
+    var fbObj = fbRef.database().ref();
+
+    fbObj.once('value').then( snapshot => {
+
+      return snapshot.forEach((childSnapshot) => {
+        childSnapshot.ref.child("votes").remove();
+      });
+
+    })
+    .then(() => {
+      this.startListening()
+    })
+  }
+
+
+   startListening() {
+    const refObj =  fbRef.database().ref();
+
+    refObj.on('value', snapshot => {
+
+      var nomineesCopy = [];
+
+      var timesOfNominationCopy = this.state.timesOfNomination;
+
+      for (var i = 0; i < timesOfNominationCopy.length; i++) {
+       timesOfNominationCopy[i].times = 0;
+      }
+
+      snapshot.forEach((child) => {   
+        if ( child.val().votes ) {
+          console.log('v:', child.val().name);
+          console.log('len2:', Object.keys(child.val().votes).length);
+          var len2 =  Object.keys(child.val().votes).length;
+          var v = child.val().name;
+          let nn = true;
+          
+          for (var i = 0; i < timesOfNominationCopy.length; i++) {
+            if (timesOfNominationCopy[i].name === v) {
+              nn = false;
+console.log('current', timesOfNominationCopy[i].times);
+              timesOfNominationCopy[i].times += len2;
+            }
+          }
+          if (nn) {  timesOfNominationCopy.push({name: v, times: len2}); } 
+          
+
+          for (var i = 0; i < len2; i++) {
+            nomineesCopy.push(v);
+          }
+          
+        }
+        
+      });
+      this.setState({timesOfNomination: timesOfNominationCopy});
+console.log(this.state.timesOfNomination);
+
+      this.setState({
+        nominees: nomineesCopy
+      });
+      console.log('nst: ', this.state.nominees);
+    });
+  }
+ 
   removeNom(index) {
     var noms = [...this.state.nominees]; 
     let indexName = noms[index];
