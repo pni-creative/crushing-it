@@ -37,7 +37,7 @@ class App extends React.Component {
       require('./themes/default.scss');
     }
 
-    this.startListening();
+    this.resetStart();
 
   }
 
@@ -170,7 +170,7 @@ class App extends React.Component {
     });
   }
 
-  //reset votes and start listening. not used
+  //reset votes and start listening. 
   resetStart() {
     var fbObj = fbRef.database().ref();
 
@@ -183,7 +183,8 @@ class App extends React.Component {
     })
     .then(() => {
       this.startListening()
-    })
+    });
+    this.closeVoting();
   }
 
 
