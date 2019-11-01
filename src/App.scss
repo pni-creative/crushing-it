@@ -60,3 +60,56 @@ ul {
   border-radius: 52% 70% 70% 52% / 52% 52% 70% 70%;} 
 }
 
+.vote-btn--disabled {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.vote-list button {
+  display: block;
+  width: 100%;
+  height: 65px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.vote-footer {
+  position: sticky;
+  bottom: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  font-weight: bold;
+}
+
+.start-vote {
+  background-color: lightcoral;
+  color: white;
+  font-weight: bold;
+}
+
+.vote-in-progress {
+  text-align: center;
+  padding: 8px 0;
+  margin: 0;
+  background-color: lightseagreen;
+}
+
+.vote-header {
+  position: sticky;
+  top: 0;
+  text-align: center;
+  background-color: rgb(243, 190, 82);
+  color: #1d1d1d;
+  display: flex;
+  justify-content: center;
+}
+
+.vote-closed-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
