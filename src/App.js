@@ -203,8 +203,7 @@ class App extends React.Component {
 
       snapshot.forEach((child) => {   
         if ( child.val().votes ) {
-          console.log('v:', child.val().name);
-          console.log('len2:', Object.keys(child.val().votes).length);
+
           var len2 =  Object.keys(child.val().votes).length;
           var v = child.val().name;
           let nn = true;
@@ -212,7 +211,7 @@ class App extends React.Component {
           for (var i = 0; i < timesOfNominationCopy.length; i++) {
             if (timesOfNominationCopy[i].name === v) {
               nn = false;
-console.log('current', timesOfNominationCopy[i].times);
+
               timesOfNominationCopy[i].times += len2;
             }
           }
@@ -227,12 +226,11 @@ console.log('current', timesOfNominationCopy[i].times);
         
       });
       this.setState({timesOfNomination: timesOfNominationCopy});
-console.log(this.state.timesOfNomination);
 
       this.setState({
         nominees: nomineesCopy
       });
-      console.log('nst: ', this.state.nominees);
+
     });
   }
  
