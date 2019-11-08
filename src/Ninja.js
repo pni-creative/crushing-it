@@ -103,12 +103,12 @@ class Ninja extends React.Component {
 	
   render() {
     const listItems = this.state.data.map((items, i) =>
-        <p 
+        <button 
           className="vote-name"
           key={i} 
           onDoubleClick={() => this.writeUserData(items.name, items.id)} 
           disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
-        </p>
+        </button>
       );
 
    const startVoteCTA = <button className="start-vote" onClick={() => this.setVoteSession()}>Open Voting</button>
