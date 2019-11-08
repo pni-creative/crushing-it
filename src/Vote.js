@@ -28,7 +28,7 @@ class Vote extends React.Component {
   }
 
   componentDidMount() {
-
+    document.documentElement.classList.add("vote");
     var startVoteRef = fbRef.database().ref('/_voteSession');
     startVoteRef.on('value', snapshot => {
       this.setState({startVoting: snapshot.val().isOpen});
@@ -64,8 +64,8 @@ class Vote extends React.Component {
           disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
         </p>
       );
-   const seeYouLater = <div className="vote-closed-wrapper"><img src="https://media.giphy.com/media/10WCpxxwoQ9dKM/giphy.gif"/></div>
-   //const voteCounter = <p>You have {5 - this.state.myVotes.length} votes remaining</p>
+   const seeYouLater = <div className="vote-closed-wrapper"><p className="vote-name">Voting is closed.</p></div>
+
    const voteCounter = <div>
                         <div className={this.state.myVotes.length === 5 ? 'heart heart--empty' : 'heart'}></div>
                         <div className={this.state.myVotes.length >= 4 ? 'heart heart--empty' : 'heart'}></div>

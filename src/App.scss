@@ -60,6 +60,10 @@ ul {
   border-radius: 52% 70% 70% 52% / 52% 52% 70% 70%;} 
 }
 
+html.vote {
+  background-color: darkmagenta;
+}
+
 .vote-btn--disabled {
   pointer-events: none;
   opacity: 0.3;
@@ -71,8 +75,6 @@ ul {
   height: 65px;
   font-size: 16px;
   border-radius: 4px;
-  background-color: transparent;
-  border-color: transparent;
 }
 
 .vote-footer {
@@ -117,7 +119,11 @@ ul {
 .vote-closed-wrapper {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  .vote-name {
+    padding: 0;
+  }
 }
 
 .vote-list {

@@ -37,7 +37,7 @@ class App extends React.Component {
       require('./themes/default.scss');
     }
 
-    this.resetStart();
+    this.startListening();
 
   }
 
