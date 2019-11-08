@@ -28,6 +28,7 @@ class Vote extends React.Component {
   }
 
   componentDidMount() {
+
     var startVoteRef = fbRef.database().ref('/_voteSession');
     startVoteRef.on('value', snapshot => {
       this.setState({startVoting: snapshot.val().isOpen});
@@ -56,23 +57,37 @@ class Vote extends React.Component {
 	
   render() {
     const listItems = this.state.data.map((items, i) =>
-        <button 
+        <p  
+          className="vote-name"
           key={i} 
           onDoubleClick={() => this.writeUserData(items.name, items.id)} 
           disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
-        </button>
+        </p>
       );
    const seeYouLater = <div className="vote-closed-wrapper"><img src="https://media.giphy.com/media/10WCpxxwoQ9dKM/giphy.gif"/></div>
-   const voteCounter = <p>You have {5 - this.state.myVotes.length} votes remaining</p>
+   //const voteCounter = <p>You have {5 - this.state.myVotes.length} votes remaining</p>
+   const voteCounter = <div>
+                        <div className={this.state.myVotes.length === 5 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes.length >= 4 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes.length >=3  ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes.length >=2 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes.length >=1 ? 'heart heart--empty' : 'heart'}></div>
+                       </div>
    
     return (
-      <div className="vote-list">
-        <header className="vote-header">
-          {this.state.startVoting ? voteCounter : null}
-        </header>
-         {this.state.startVoting === true ? listItems : null}
-         {this.state.startVoting === false ? seeYouLater : null}
-      </div>
+
+        <div className="vote-container">
+          <div className="vote-list">
+            <header className="vote-header">
+              {this.state.startVoting ? voteCounter : null}
+            </header>
+            <div className="vote-main">
+              {this.state.startVoting === true ? listItems : null}
+              {this.state.startVoting === false ? seeYouLater : null}
+            </div>
+          </div>
+        </div>
+
     );
   }
 }
