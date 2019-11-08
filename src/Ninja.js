@@ -74,6 +74,7 @@ class Ninja extends React.Component {
  
   componentDidMount() {
     document.documentElement.classList.add("vote");
+    document.body.classList.add("vote");
     var startVoteRef = fbRef.database().ref('/_voteSession');
     startVoteRef.on('value', snapshot => {
       this.setState({startVoting: snapshot.val().isOpen});
