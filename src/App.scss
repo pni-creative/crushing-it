@@ -120,6 +120,7 @@ html.vote, body.vote {
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  align-items: center;
   .vote-name {
     padding: 0;
     text-align: center;
@@ -141,7 +142,7 @@ html.vote, body.vote {
   font-size: 30px;
   font-weight: bold;
   margin: 0;
-  padding: 0 0 10px 20px;
+  padding: 0 0 30px 30px;
   display: block;
   font-family: 'Poppins', sans-serif;
   background-color: transparent;
@@ -198,7 +199,6 @@ html.vote, body.vote {
 
 .hearts-wrapper {
   display: flex;
-  width: 150px;
   justify-content: flex-end;
   padding-top: 10px;
   padding-right: 10px;
