@@ -73,6 +73,7 @@ class Ninja extends React.Component {
   }  
  
   componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
     document.documentElement.classList.add("vote");
     document.body.classList.add("vote");
     var startVoteRef = fbRef.database().ref('/_voteSession');
@@ -100,20 +101,35 @@ class Ninja extends React.Component {
       });
     });
   }
+  
+  handleScroll() {
+    var elements = document.getElementsByClassName('vote-name');
+    for (var i = 0; i < elements.length; i++) {
+      var requiredElement = elements[i];
+      var rect = requiredElement.getBoundingClientRect();
+      var elemTop = rect.top;
+      var isVisible = (elemTop - 20 >= 0);
+      if (!isVisible) {
+        requiredElement.classList.add("blurrr");
+      } else {
+        requiredElement.classList.remove("blurrr");
+      }
+    } 
+  }
 	
   render() {
     const listItems = this.state.data.map((items, i) =>
         <button 
           className="vote-name"
           key={i} 
-          onDoubleClick={() => this.writeUserData(items.name, items.id)} 
+          onClick={() => this.writeUserData(items.name, items.id)} 
           disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
         </button>
       );
 
    const startVoteCTA = <button className="start-vote" onClick={() => this.setVoteSession()}>Open Voting</button>
    const voteInProgress = <p className="vote-in-progress" onClick={() => { if (window.confirm('Are you sure you want to delete all votes?')) this.cancelVotingInProgress() } } >Voting in progress</p>
-   const voteCounter = <div>
+   const voteCounter = <div className="hearts-wrapper">
                         <div className={this.state.myVotes.length === 5 ? 'heart heart--empty' : 'heart'}></div>
                         <div className={this.state.myVotes.length >= 4 ? 'heart heart--empty' : 'heart'}></div>
                         <div className={this.state.myVotes.length >= 3  ? 'heart heart--empty' : 'heart'}></div>
@@ -126,7 +142,7 @@ class Ninja extends React.Component {
         <div className="vote-list">
           <header className="vote-header">
             {this.state.startVoting ? voteCounter : null}
-          </header>
+          </header> 
           <div className="vote-main">
            {this.state.startVoting === true ? listItems : null}
           </div>
