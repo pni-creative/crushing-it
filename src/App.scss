@@ -103,11 +103,14 @@ html.vote, body.vote {
 }
 
 .vote-header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  -webkit-transform: translateZ(0);
+   transform: translateZ(0);
 }
 
 .vote-main {
