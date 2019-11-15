@@ -81,7 +81,7 @@ class Vote extends React.Component {
           disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
         </button>
       );
-   const seeYouLater = <div className="vote-closed-wrapper"><p className="vote-name">Voting is closed.</p></div>
+   const seeYouLater = <div className="vote-closed-wrapper"><p className="vote-closed">Voting is closed.</p></div>
 
    const voteCounter = <div className="hearts-wrapper">
                         <div className={this.state.myVotes.length === 5 ? 'heart heart--empty' : 'heart'}></div>
