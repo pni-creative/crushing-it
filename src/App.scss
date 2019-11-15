@@ -108,9 +108,6 @@ html.vote, body.vote {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  height: 35px;
-  -webkit-transform: translate3d(0,0,0);
-  transform : translate3d(0, 0, 0);
 }
 
 .vote-main {
@@ -177,9 +174,6 @@ html.vote, body.vote {
     position: relative;
     width: 25px;
     height: 25px;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    animation: beat 2000ms infinite;
 }
 .heart:before,
 .heart:after{
