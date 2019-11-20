@@ -11,6 +11,7 @@ html {
   margin: 0;
   padding: 0;
 }
+
 h1 {
   margin: 0;
   padding: 0;
@@ -60,12 +61,16 @@ ul {
   border-radius: 52% 70% 70% 52% / 52% 52% 70% 70%;} 
 }
 
+html.vote, body.vote {
+  background-color: darkmagenta;
+}
+
 .vote-btn--disabled {
   pointer-events: none;
   opacity: 0.3;
 }
 
-.vote-list button {
+.vote-list button.start-vote {
   display: block;
   width: 100%;
   height: 65px;
@@ -98,18 +103,115 @@ ul {
 }
 
 .vote-header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  text-align: center;
-  background-color: rgb(243, 190, 82);
-  color: #1d1d1d;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
+  -webkit-transform: translateZ(0);
+   transform: translateZ(0);
 }
+
+.vote-main {
+  width: 60%;
+}
+  
 
 .vote-closed-wrapper {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  .vote-closed {
+    padding: 150px 0 0;
+    text-align: center;
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    width: 100%;
+    height: 100%;
+  }
 }
+
+.vote-list {
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+}
+
+.vote-container {
+  background-image: url('img/art2.png');
+  background-size: cover
+}
+
+.vote-name, .vote-closed {
+  color: #f5f5f5;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0 0 30px 30px;
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  filter: blur(0);
+  transition: filter 1000ms;
+  text-align: left;
+  &:focus {
+    outline: none;
+  }
+}
+
+.vote-name[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@keyframes beat {
+	0% { transform: scale(1); }
+	50% { transform: scale(1.1); }
+	100% { transform: scale(1); }
+}
+
+.heart{
+    position: relative;
+    width: 25px;
+    height: 25px;
+}
+.heart:before,
+.heart:after{
+    position: absolute;
+    content: "";
+    left: 10px;
+    top: 0;
+    width: 10px;
+    height: 16px;
+    background: darkmagenta;
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.heart:after{
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+.heart--empty {
+  display: none;
+}
+
+.hearts-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  padding-right: 10px;
+  height: 35px;
+}
+
+.blurrr {
+  filter: blur(3px);
+}
+
 
