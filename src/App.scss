@@ -183,7 +183,7 @@ html.vote, body.vote {
 }
 
 .vote-name:not(.blurrr) {
-  transition: filter 500ms ease-out;
+  transition: all 500ms ease-out;
 }
 
 .vote-name[disabled] {
