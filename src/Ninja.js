@@ -108,7 +108,7 @@ class Ninja extends React.Component {
       var requiredElement = elements[i];
       var rect = requiredElement.getBoundingClientRect();
       var elemTop = rect.top;
-      var isVisible = (elemTop - 20 >= 0);
+      var isVisible = (elemTop - 50 >= 0);
       if (!isVisible) {
         requiredElement.classList.add("blurrr");
       } else {
@@ -140,15 +140,17 @@ class Ninja extends React.Component {
     return (
       <div className="vote-container">
         <div className="vote-list">
+          <div className="headerBG"></div>
           <header className="vote-header">
             {this.state.startVoting ? voteCounter : null}
+                       {this.state.startVoting === false ? startVoteCTA : null}
           </header> 
           <div className="vote-main">
            {this.state.startVoting === true ? listItems : null}
+
           </div>
           <footer className="vote-footer">
            {this.state.startVoting === true ? voteInProgress : null}
-           {this.state.startVoting === false ? startVoteCTA : null}
           </footer>
         </div>
       </div>
