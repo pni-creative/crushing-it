@@ -183,7 +183,7 @@ html.vote, body.vote {
 }
 
 .vote-name:not(.blurrr) {
-  transition: all 100ms ease;
+  transition: all 1500ms ease;
 }
 
 .vote-name[disabled] {
@@ -239,7 +239,7 @@ html.vote, body.vote {
 
 .blurrr {
   filter: blur(5px);
-  letter-spacing: 10px;
+  letter-spacing: 3px;
 }
 
 .headerBG {

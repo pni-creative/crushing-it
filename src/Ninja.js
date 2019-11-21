@@ -143,7 +143,7 @@ class Ninja extends React.Component {
           <div className="headerBG"></div>
           <header className="vote-header">
             {this.state.startVoting ? voteCounter : null}
-                       {this.state.startVoting === false ? startVoteCTA : null}
+            {this.state.startVoting === false ? startVoteCTA : null}
           </header> 
           <div className="vote-main">
            {this.state.startVoting === true ? listItems : null}
