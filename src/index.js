@@ -8,6 +8,7 @@ import Profile from './Profile';
 import Leaderboard from './Leaderboard';
 import Vote from './Vote';
 import Ninja from './Ninja';
+import Race from './Race';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
@@ -20,6 +21,7 @@ const routing = (
       <Route exact path="/leaderboard/" component={Leaderboard} />
       <Route exact path="/vote/" component={Vote} />
       <Route exact path="/ninja/" component={Ninja} />
+      <Route exact path="/race/" component={Race} />
 
     </div>
   </Router>

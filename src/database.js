@@ -46,6 +46,43 @@ const DB = class  {
     
     return tCount
   }
+  
+  getAllNames = async() => {
+    let params = {
+      TableName: table,
+    };
+    
+    let items;
+    let users = [];
+    let allNames = [];
+
+    do {
+      
+      items =  await docClient.scan(params).promise();
+
+      items.Items.forEach((i) => { users.push(i.names) });
+
+      //JOIN ARRAYS
+      let allUsers = [].concat.apply([], users);
+
+      // ADD 5 FOR EACH WIN
+      items.Items.forEach((i) => { 
+        for (var j = 0; j < 5; j++) {
+          allUsers.push(i.winner);
+        }
+      });
+
+      //SANITIZE USERS TO LOWER CASE
+      let allUsersSanitized = allUsers.map(function (val) { return val.toLowerCase(); });
+
+      allNames = allUsersSanitized;
+
+      params.ExclusiveStartKey  = items.LastEvaluatedKey;
+    
+    } while ( typeof items.LastEvaluatedKey != "undefined" );
+
+    return allNames;
+  }
 
   getLeaderBoard = async () => {
     let params = {
@@ -81,9 +118,11 @@ const DB = class  {
       // // Reverse sorting on key
       const keysSorted = Object.keys(obj).sort(function(a, b){return b - a})
 
+      
       // COMPOSES OBJECT TO RETURN
       for (let i = 0; i < keysSorted.length; i++) {
         const winnerItem = {};
+         
         winnerItem.user= keysSorted[i];
         winnerItem.wins= this.getWinsById(items, keysSorted[i]);
         winnerItem.nominations = this.getNominationsById(items, keysSorted[i]);
@@ -101,7 +140,8 @@ const DB = class  {
     
     } while ( typeof items.LastEvaluatedKey != "undefined" );
 
-    return leaderBoard.splice(0, 5)
+    //return leaderBoard.splice(0, 5)
+    return leaderBoard
   }
 
   getProfile = async (id) => {
@@ -221,6 +261,7 @@ const DB = class  {
     return `[${scanResults}]`;
   }
 }
+
 
 // Initialize the Class
 const db = new DB();

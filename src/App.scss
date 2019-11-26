@@ -236,3 +236,47 @@ html.vote, body.vote {
   backdrop-filter: blur(5px);
   border-bottom: 1px solid #cccccc24;
 }
+
+.race-wrapper {
+  margin-top: 80px;
+  height: 800px;
+  width: 100vw;
+  border: 1px solid red;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.racer {
+  width: 30px;
+  height: 30px;
+  background-color: dodgerblue;
+  margin: 0 2px;
+
+}
+
+.racer.go {
+    transition: transform 90000ms ease-in-out;
+}
+
+.race-wrapper.zoom {
+  transition: transform 1s ease-in-out 5s;
+}
+  
+.start-button {
+  transform: translateY(30px);
+}
+
+.go {
+  //animation: 90000ms ease-in-out 1 forwards go-animation;
+  transform: translate3d(0, -800px, 0);
+}
+
+@keyframes go-animation {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0, -800px, 0); }
+}
+
+.zoom {
+    transform: scale(1.5) translateY(140px);
+}
