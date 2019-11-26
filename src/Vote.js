@@ -63,7 +63,7 @@ class Vote extends React.Component {
       var requiredElement = elements[i];
       var rect = requiredElement.getBoundingClientRect();
       var elemTop = rect.top;
-      var isVisible = (elemTop - 20 >= 0);
+      var isVisible = (elemTop - 50 >= 0);
       if (!isVisible) {
         requiredElement.classList.add("blurrr");
       } else {
@@ -95,6 +95,7 @@ class Vote extends React.Component {
 
         <div className="vote-container">
           <div className="vote-list">
+            <div className="headerBG"></div>
             <header className="vote-header">
               {this.state.startVoting ? voteCounter : null}
             </header>
