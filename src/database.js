@@ -65,13 +65,6 @@ const DB = class  {
       //JOIN ARRAYS
       let allUsers = [].concat.apply([], users);
 
-      // ADD 5 FOR EACH WIN
-      items.Items.forEach((i) => { 
-        for (var j = 0; j < 5; j++) {
-          allUsers.push(i.winner);
-        }
-      });
-
       //SANITIZE USERS TO LOWER CASE
       let allUsersSanitized = allUsers.map(function (val) { return val.toLowerCase(); });
 
@@ -80,7 +73,8 @@ const DB = class  {
       params.ExclusiveStartKey  = items.LastEvaluatedKey;
     
     } while ( typeof items.LastEvaluatedKey != "undefined" );
-
+    
+    console.log(JSON.stringify(allNames));
     return allNames;
   }
 
@@ -126,8 +120,8 @@ const DB = class  {
         winnerItem.user= keysSorted[i];
         winnerItem.wins= this.getWinsById(items, keysSorted[i]);
         winnerItem.nominations = this.getNominationsById(items, keysSorted[i]);
-        winnerItem.total = (this.getWinsById(items, keysSorted[i]) * 5) + this.getNominationsById(items, keysSorted[i]);
-        
+        //winnerItem.total = (this.getWinsById(items, keysSorted[i]) * 5) + this.getNominationsById(items, keysSorted[i]);
+        winnerItem.total = this.getNominationsById(items, keysSorted[i]);
         leaderBoard.push(winnerItem);
       }
 
@@ -141,6 +135,7 @@ const DB = class  {
     } while ( typeof items.LastEvaluatedKey != "undefined" );
 
     //return leaderBoard.splice(0, 5)
+    console.log(JSON.stringify(leaderBoard));
     return leaderBoard
   }
 

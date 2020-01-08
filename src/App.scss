@@ -239,20 +239,54 @@ html.vote, body.vote {
 
 .race-wrapper {
   margin-top: 80px;
-  height: 800px;
+  height: 100vh;
   width: 100vw;
-  border: 1px solid red;
+  //border: 1px solid red;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
 
 .racer {
-  width: 30px;
-  height: 30px;
-  background-color: dodgerblue;
+  width: 33px;
+  height: 100%;
   margin: 0 2px;
+  font-size: 30px;
+  //transform: translateY(130px);
+  //border: 1px solid #ccc;
+  background-color: #00ffa126;
+  
+  .racer__rocket {
+    position: absolute;
+    bottom: 0;
+  }
+  
+  .racer__avatar {
+    padding-left: 1px;
+    display: block;
+    bottom: 157px;
+    position: absolute;
+    transform: rotate(-42deg) translate(-1px, 4px);
+  }
 
+  .racer__name {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 22px;
+    //display: none;
+    position: absolute;
+    bottom: 15px;
+    color: gold;
+  }
+}
+
+.out {
+  //background-color: transparent;
+}
+  
+.out .racer__name {
+  color: #666;
 }
 
 .racer.go {
@@ -260,7 +294,7 @@ html.vote, body.vote {
 }
 
 .race-wrapper.zoom {
-  transition: transform 1s ease-in-out 5s;
+  transition: transform 1s ease-in-out 60000ms;
 }
   
 .start-button {
@@ -268,15 +302,123 @@ html.vote, body.vote {
 }
 
 .go {
-  //animation: 90000ms ease-in-out 1 forwards go-animation;
-  transform: translate3d(0, -800px, 0);
+  animation: 90000ms ease-in-out 1 forwards go-animation;
+  //transform: translate3d(0, -800px, 0);
+}
+
+.racer__score {
+  width: 33px;
+  text-align: center;
+  display: block;
+  bottom: 130px;
+  position: absolute;
+  color: white;
+  font-size: 20px;
+}
+
+.zap.flash.animated {
+  display: block;
+  animation-fill-mode: forwards;
+  animation-duration: 500ms;
+}
+
+
+@keyframes flash {
+  0%, 50%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
 }
 
 @keyframes go-animation {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(0, -800px, 0); }
+  100% { transform: translate3d(0, -700px, 0); }
+  //0% { transform: rotate(-42deg) translate(-1px, 4px); }
+  //100% { transform: rotate(-42deg) translate(429px, -476px); }
+
+}
+
+@keyframes danger-animation {
+  0% { background-color: transparent; }
+  100% { background-color: red; }
 }
 
 .zoom {
     transform: scale(1.5) translateY(140px);
 }
+
+.tracker {
+  .emoji-picker__content {
+    height: 21.5rem;
+  }
+
+  .emoji-picker__preview {
+    padding: 1.5em .5em;
+  }
+
+  .emoji-picker__tab {
+    padding: 8px;
+  }
+  
+  .emoji-picker__tab svg {
+    padding: 0;
+  }
+  
+  input {
+    padding: 0.25em 0.5em;
+  }
+}
+
+body.race {
+  background-color: #050b12;
+    background-image: linear-gradient(to top,#050b12, #15304e);
+    background-size: 100%;
+    overflow: hidden;
+}
+
+@keyframes stars {
+    0% { transform: translateY(-100vw) }
+    100% { transform: translateY(100vw) }
+}
+
+@keyframes flicker {
+  0%   { transform: rotate(40deg) translate(10px, -10px); opacity: 0.7; }
+  20%  { transform: rotate(35deg) translate(20px, -20px); opacity: 1; }
+  40%  {  transform: rotate(45deg) translate(15px, -15px); opacity: 0.7; }
+  60%  {  transform: rotate(35deg) scale(1.02) translate(10px, -10px); opacity: 1; }
+  80%  {  transform: rotate(45deg) scale(0.9) translate(5px, -5px); opacity: 0.7; }
+  100% {  transform: rotate(40deg) translate(0px, 0px); opacity: 1; }
+}
+
+
+.stars {
+  list-style: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+
+  @for $i from 1 through 130 {
+    $counter: 50*$i;
+    li:nth-of-type(#{$i}){
+    animation-delay: (#{-$counter}s);
+    animation-duration: (#{$counter * .02}s);
+    top: random(600) + px;
+    left: random(1400) + px;
+    }
+  }
+  
+  li {
+    animation-name: stars;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    height: 2px;
+    width: 2px;
+    background: white;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0px 0px 20px 0px white;
+    left: 10px;
+    top: 10px;
+    z-index: 0;
+  }
+}
+
