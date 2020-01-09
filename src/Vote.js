@@ -35,6 +35,18 @@ class Vote extends React.Component {
     var uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      
+      console.log(authResult.user.uid);
+      
+      fbRef.database().ref(`_auth/${authResult.user.uid}`).once("value", snapshot => {
+       if (!snapshot.exists()){
+
+          fbRef.database().ref('_auth/' + authResult.user.uid).set({
+            votes: 5
+          });
+        }
+      });
+      
       this.setState({signedIn: true});
     }.bind(this),
     uiShown: function() {
