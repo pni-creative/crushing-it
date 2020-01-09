@@ -2,6 +2,7 @@
 import * as firebase from "firebase/app";
 
 import 'firebase/database';
+import "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -12,6 +13,7 @@ const firebaseConfig = {
   storageBucket: "crushin-it.appspot.com",
   messagingSenderId: process.env.REACT_APP_FB_MSG_ID,
   appId: process.env.REACT_APP_FB_APP_ID
+
 };
 
 // Initialize Firebase

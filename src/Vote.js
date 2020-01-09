@@ -1,5 +1,6 @@
 import React from 'react'
 import fbRef from './databaseRT';
+import * as firebaseui from 'firebaseui';
 
 class Vote extends React.Component {
   
@@ -9,6 +10,7 @@ class Vote extends React.Component {
       data: [],
       myVotes: JSON.parse(localStorage.getItem('myVotes')) || [],
       startVoting: null,
+      signedIn: null,
       startTime: parseInt(localStorage.getItem('startTime')) || 0
     }
   }
@@ -28,6 +30,32 @@ class Vote extends React.Component {
   }
 
   componentDidMount() {
+    
+    
+    var uiConfig = {
+  callbacks: {
+    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      this.setState({signedIn: true});
+    }.bind(this),
+    uiShown: function() {
+      // The widget is rendered.
+      // Hide the loader.
+      document.getElementById('loader').style.display = 'none';
+    }
+  },
+  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+  signInFlow: 'popup',
+  signInSuccessUrl: '/vote',
+  signInOptions: [{
+    // Leave the lines as is for the providers you want to offer your users.
+    provider: fbRef.auth.PhoneAuthProvider.PROVIDER_ID,
+    defaultCountry: 'CA', // Set default country to the Canada (+1).
+  }]
+};
+
+var ui = new firebaseui.auth.AuthUI(fbRef.auth());
+ui.start('#firebaseui-auth-container', uiConfig);
+
     window.addEventListener('scroll', this.handleScroll);
     document.documentElement.classList.add("vote");
     document.body.classList.add("vote");
@@ -94,14 +122,17 @@ class Vote extends React.Component {
     return (
 
         <div className="vote-container">
+          
           <div className="vote-list">
+            <div id="firebaseui-auth-container"></div>
+            <div id="loader">Loading...</div>
             <div className="headerBG"></div>
             <header className="vote-header">
-              {this.state.startVoting ? voteCounter : null}
+              {this.state.startVoting && this.state.signedIn ? voteCounter : null}
             </header>
             <div className="vote-main">
-              {this.state.startVoting === true ? listItems : null}
-              {this.state.startVoting === false ? seeYouLater : null}
+              {this.state.startVoting === true && this.state.signedIn ? listItems : null}
+              {this.state.startVoting === false && this.state.signedIn ? seeYouLater : null}
             </div>
           </div>
         </div>
