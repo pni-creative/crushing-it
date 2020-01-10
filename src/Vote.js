@@ -9,16 +9,27 @@ class Vote extends React.Component {
     this.state = {
       data: [],
       myVotes: JSON.parse(localStorage.getItem('myVotes')) || [],
+      myVotes2: 0,
       startVoting: null,
       signedIn: null,
+      authID: null,
       startTime: parseInt(localStorage.getItem('startTime')) || 0
     }
   }
 
-  writeUserData(userName, userID) {
+  writeUserData(userName, userID, authID) {
     var newChildRef = fbRef.database().ref(userID + '/votes/').push();
     newChildRef.set({
       plus_one: true
+    });
+    
+    var votesRef = fbRef.database().ref(`_auth/${authID}/votes`);
+    votesRef.transaction((currentVoteCount) => {
+      return currentVoteCount + 1;
+    });
+    
+    this.setState({
+      myVotes2: this.state.myVotes2 + 1
     });
  
     this.setState({
@@ -37,13 +48,16 @@ class Vote extends React.Component {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       
       console.log(authResult.user.uid);
+      this.setState({authID: authResult.user.uid});
       
-      fbRef.database().ref(`_auth/${authResult.user.uid}`).once("value", snapshot => {
-       if (!snapshot.exists()){
+      fbRef.database().ref(`_auth/${authResult.user.uid}/votes`).once("value", snapshot => {
+       if (!snapshot.exists()) {
 
           fbRef.database().ref('_auth/' + authResult.user.uid).set({
-            votes: 5
+            votes: 0
           });
+        } else {
+          this.setState({myVotes2: snapshot.val()});
         }
       });
       
@@ -117,18 +131,18 @@ ui.start('#firebaseui-auth-container', uiConfig);
         <button 
           className="vote-name"
           key={i} 
-          onClick={() => this.writeUserData(items.name, items.id)} 
-          disabled={this.state.myVotes.includes(items.name) || this.state.myVotes.length >= 5}>{items.name} 
+          onClick={() => this.writeUserData(items.name, items.id, this.state.authID)} 
+          disabled={this.state.myVotes.includes(items.name) || this.state.myVotes2 >= 5}>{items.name} 
         </button>
       );
    const seeYouLater = <div className="vote-closed-wrapper"><p className="vote-closed">Voting is closed.</p></div>
 
    const voteCounter = <div className="hearts-wrapper">
-                        <div className={this.state.myVotes.length === 5 ? 'heart heart--empty' : 'heart'}></div>
-                        <div className={this.state.myVotes.length >= 4 ? 'heart heart--empty' : 'heart'}></div>
-                        <div className={this.state.myVotes.length >=3  ? 'heart heart--empty' : 'heart'}></div>
-                        <div className={this.state.myVotes.length >=2 ? 'heart heart--empty' : 'heart'}></div>
-                        <div className={this.state.myVotes.length >=1 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes2 >= 5 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes2 >= 4 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes2 >=3  ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes2 >=2 ? 'heart heart--empty' : 'heart'}></div>
+                        <div className={this.state.myVotes2 >=1 ? 'heart heart--empty' : 'heart'}></div>
                        </div>
    
     return (
@@ -136,8 +150,7 @@ ui.start('#firebaseui-auth-container', uiConfig);
         <div className="vote-container">
           
           <div className="vote-list">
-            <div id="firebaseui-auth-container"></div>
-            <div id="loader">Loading...</div>
+            
             <div className="headerBG"></div>
             <header className="vote-header">
               {this.state.startVoting && this.state.signedIn ? voteCounter : null}
@@ -145,6 +158,9 @@ ui.start('#firebaseui-auth-container', uiConfig);
             <div className="vote-main">
               {this.state.startVoting === true && this.state.signedIn ? listItems : null}
               {this.state.startVoting === false && this.state.signedIn ? seeYouLater : null}
+              
+              <div id="firebaseui-auth-container"></div>
+              <div id="loader">Loading...</div>
             </div>
           </div>
         </div>
