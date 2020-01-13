@@ -44,31 +44,36 @@ class Vote extends React.Component {
     
     
     var uiConfig = {
-  callbacks: {
-    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       
-      console.log(authResult.user.uid);
-      this.setState({authID: authResult.user.uid});
+          this.setState({authID: authResult.user.uid});
       
-      fbRef.database().ref(`_auth/${authResult.user.uid}/votes`).once("value", snapshot => {
-       if (!snapshot.exists()) {
+          fbRef.database().ref(`_auth/${authResult.user.uid}/votes`).once("value", snapshot => {
+            if (!snapshot.exists()) {
 
-          fbRef.database().ref('_auth/' + authResult.user.uid).set({
-            votes: 0
+              fbRef.database().ref('_auth/' + authResult.user.uid).set({
+                votes: 0
+              });
+            } else {
+              this.setState({myVotes2: snapshot.val()});
+            }
           });
-        } else {
-          this.setState({myVotes2: snapshot.val()});
-        }
-      });
       
-      this.setState({signedIn: true});
-    }.bind(this),
-    uiShown: function() {
-      // The widget is rendered.
-      // Hide the loader.
-      document.getElementById('loader').style.display = 'none';
-    }
-  },
+          this.setState({signedIn: true});
+          
+        }.bind(this),
+        
+        uiShown: function() {
+          // The widget is rendered.
+          var elLong = document.querySelector('[data-provider-id="microsoft.com"] .firebaseui-idp-text-long');
+          var elShort = document.querySelector('[data-provider-id="microsoft.com"] .firebaseui-idp-text-short');
+          elLong.innerHTML = "Sign in with PNI email";
+          elShort.innerHTML = "PNI email";
+          // Hide the loader.
+          document.getElementById('loader').style.display = 'none';
+        }
+      },
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
   signInFlow: 'popup',
   signInSuccessUrl: '/vote',
@@ -76,11 +81,15 @@ class Vote extends React.Component {
     // Leave the lines as is for the providers you want to offer your users.
     provider: fbRef.auth.PhoneAuthProvider.PROVIDER_ID,
     defaultCountry: 'CA', // Set default country to the Canada (+1).
-  }]
+    recaptchaParameters: {
+        size: 'invisible'
+
+      },
+  }, {provider: 'microsoft.com'}]
 };
 
-var ui = new firebaseui.auth.AuthUI(fbRef.auth());
-ui.start('#firebaseui-auth-container', uiConfig);
+  var ui = new firebaseui.auth.AuthUI(fbRef.auth());
+  ui.start('#firebaseui-auth-container', uiConfig);
 
     window.addEventListener('scroll', this.handleScroll);
     document.documentElement.classList.add("vote");
