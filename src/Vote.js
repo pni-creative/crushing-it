@@ -13,7 +13,8 @@ class Vote extends React.Component {
       startVoting: null,
       signedIn: null,
       authID: null,
-      startTime: parseInt(localStorage.getItem('startTime')) || 0
+      startTime: parseInt(localStorage.getItem('startTime')) || 0,
+      givenName: null
     }
   }
 
@@ -46,8 +47,14 @@ class Vote extends React.Component {
     var uiConfig = {
       callbacks: {
         signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        
+          console.log(authResult.additionalUserInfo.profile);
       
-          this.setState({authID: authResult.user.uid});
+          this.setState({
+            authID: authResult.user.uid,
+            givenName: authResult.additionalUserInfo.profile.givenName,
+            signedIn: true
+          });
       
           fbRef.database().ref(`_auth/${authResult.user.uid}/votes`).once("value", snapshot => {
             if (!snapshot.exists()) {
@@ -60,7 +67,6 @@ class Vote extends React.Component {
             }
           });
       
-          this.setState({signedIn: true});
           
         }.bind(this),
         
@@ -77,15 +83,7 @@ class Vote extends React.Component {
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
   signInFlow: 'popup',
   signInSuccessUrl: '/vote',
-  signInOptions: [{
-    // Leave the lines as is for the providers you want to offer your users.
-    provider: fbRef.auth.PhoneAuthProvider.PROVIDER_ID,
-    defaultCountry: 'CA', // Set default country to the Canada (+1).
-    recaptchaParameters: {
-        size: 'invisible'
-
-      },
-  }, {provider: 'microsoft.com'}]
+  signInOptions: [{provider: 'microsoft.com'}]
 };
 
   var ui = new firebaseui.auth.AuthUI(fbRef.auth());
@@ -145,6 +143,10 @@ class Vote extends React.Component {
         </button>
       );
    const seeYouLater = <div className="vote-closed-wrapper"><p className="vote-closed">Voting is closed.</p></div>
+   
+   const greeting = <div className="greeting">Good afternoon, {this.state.givenName}</div>
+   
+   const headerBG = <div className="headerBG"></div>
 
    const voteCounter = <div className="hearts-wrapper">
                         <div className={this.state.myVotes2 >= 5 ? 'heart heart--empty' : 'heart'}></div>
@@ -160,8 +162,9 @@ class Vote extends React.Component {
           
           <div className="vote-list">
             
-            <div className="headerBG"></div>
+            {this.state.startVoting && this.state.signedIn ? headerBG : null}
             <header className="vote-header">
+              {this.state.startVoting && this.state.signedIn ? greeting : null}
               {this.state.startVoting && this.state.signedIn ? voteCounter : null}
             </header>
             <div className="vote-main">
